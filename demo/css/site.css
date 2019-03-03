@@ -1,0 +1,82 @@
+html,
+body {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+}
+body {
+	background-color: #3ea7e1;
+	-webkit-text-size-adjust: none;
+	font-family: Arial, Helvetica, Verdana;
+	font-size: 18px;
+	line-height: 26px;
+	color: #fff;
+	position: relative;
+}
+h1 span {
+	text-shadow: 8px 10px 1px rgba(0,0,0,.1);
+	text-transform: lowercase;
+	font-family: 'Pacifico', Arial, sans-serif;
+	font-weight: normal;
+	font-size: 150px;
+	line-height: 150px;
+	letter-spacing: -10px;
+	margin: 0 0 20px 0;
+}
+h1 em {
+	display: block;
+	font-weight: 100;
+	text-align: right;
+	margin-right: -10px;
+}
+
+a,
+a:hover
+{
+	color: #fff;
+	text-decoration: underline;
+}
+
+.phone {
+    position: fixed;
+	top: 50%;
+	right: 50%;
+    height: 760px;
+    width: 430px;
+	margin-top: -380px;
+    background: url( ../img/iphonex-example-blue.png ) center top / 395px auto no-repeat transparent;
+}
+
+.phone:before {
+	content: '';
+	border-radius: 30px 30px 0 0;
+	background: url( ../img/iphonex-example-camera.png ) center top no-repeat #4bb5ef;
+	display: block;
+	width: 290px;
+	height: 25px;
+	position: absolute;
+	top: 62px;
+	left: calc( 50% - 290px / 2);
+	z-index: 1;
+}
+
+.phone iframe {
+	position: absolute;
+	top: 87px;
+	left: 70px;
+	z-index: 0;
+	width: 290px;
+	height: 600px;
+	border: none;
+	border-radius: 0 0 30px 30px;
+}
+
+#page {
+	width: 350px;
+	position: fixed;
+	margin-top: -20px;
+	margin-left: 0;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%);
+}

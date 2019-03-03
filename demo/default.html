@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="author" content="www.frebsite.nl" />
+		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+
+		<title>mmenu light demo</title>
+
+		<link type="text/css" rel="stylesheet" href="css/demo.css" />
+		<link type="text/css" rel="stylesheet" href="../dist/mmenu-light.css" />
+	</head>
+	<body>
+		<div id="page">
+			<div class="header">
+				<a href="#menu"><span></span></a>
+				Demo
+			</div>
+			<div class="content">
+				<p><strong>This is a demo.</strong><br />
+					Click the hamburger icon to open the menu.</p>
+			</div>
+			<nav id="menu">
+				<ul>
+					<li class="selected"><a href="#">Home</a></li>
+					<li><span>About us</span>
+						<ul>
+							<li><a href="#about/history">History</a></li>
+							<li><span>The team</span>
+								<ul>
+									<li><a href="#about/team/management">Management</a></li>
+									<li><a href="#about/team/sales">Sales</a></li>
+									<li><a href="#about/team/development">Development</a></li>
+								</ul>
+							</li>
+							<li><a href="#about/address">Our address</a></li>
+						</ul>
+					</li>
+					<li><a href="#contact">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+
+		<script src="../dist/mmenu-light.js"></script>
+		<script>
+			const menu = mmlight( document.querySelector( '#menu' ) );
+			menu.create( 'all' ); 		// menu.create( '(min-width: 500px)' );
+			menu.init( 'selected' );	// menu.init( 'custom-selected-classname' );
+
+			//	Open the menu.
+			document.querySelector( 'a[href="#menu"]' )
+				.addEventListener( 'click', ( evnt ) => {
+					menu.open();
+
+					//	Don't forget to "preventDefault" and to "stopPropagation".
+					evnt.preventDefault();
+					evnt.stopPropagation();
+				});
+
+		</script>
+	</body>
+</html>

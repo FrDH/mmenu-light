@@ -1,0 +1,37 @@
+{
+	"name": "mmenu-light",
+	"version": "1.0.0",
+	"main": "dist/mmenu.js",
+	"author": "Fred Heusschen <info@frebsite.nl>",
+	"license": "CC-BY-4.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/FrDH/mmenu-light.git"
+	},
+	"description": "The (extremely) lightweight alternative to the mmenu.js plugin for creating off-canvas mobile menus with the exact look and feel.",
+	"keywords": [
+		"app",
+		"list",
+		"listview",
+		"megamenu",
+		"menu",
+		"mmenu",
+		"mobile",
+		"navigation",
+		"off-canvas",
+		"curtain",
+		"panels",
+		"submenu"
+	],
+	"scripts": {
+		"build": "gulp default"
+	},
+	"devDependencies": {
+		"gulp": "^4.0.0",
+		"gulp-autoprefixer": "^6.0.0",
+		"gulp-clean-css": "^4.0.0",
+		"gulp-sass": "^4.0.2",
+		"gulp-typescript": "^5.0.0",
+		"typescript": "^3.3.1"
+	}
+}

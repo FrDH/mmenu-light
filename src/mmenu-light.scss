@@ -1,0 +1,213 @@
+$module: '.mm';
+
+%mm-reset {
+    display: block;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+%mm-inherit {
+    border-width: 0;
+    border-style: inherit;
+    border-color: inherit;
+    background: inherit;
+}
+
+
+//  The menu.
+#{$module} {
+    --mm-color: rgba( 0,0,0,0.8);
+
+    --mm-item-height: 50px;
+    --mm-line-height: 24px;
+    --mm-item-indent: 20px;
+
+    --mm-item-padding: calc( ( var( --mm-item-height ) - var( --mm-line-height ) ) / 2 );
+
+    --mm-arrow-color: rgba( 0, 0, 0, 0.3);
+    --mm-arrow-size: 8px;
+    --mm-arrow-weight: 2px;
+
+    @extend %mm-reset;
+
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 80%;
+    min-width: 200px;
+    max-width: 440px;
+    overflow: hidden;
+    color: var( --mm-arrow-color );
+    background: #fff;
+    border: 0px solid rgba( 0, 0, 0, 0.1 );
+    line-height: var( --mm-line-height );
+    box-shadow: 300px 0 0 1000px rgba(#000,0), 0 0 10px rgba(#000,0);
+    transform: translateX( -100% );
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    //  Menu opened.
+    &#{$module}--open {
+        box-shadow: 300px 0 0 1000px rgba(#000,0.2), 0 0 20px rgba(#000,0.2);
+        transform: translateX( 0 );
+    }
+}
+
+
+//  Navbar.
+#{$module} {
+
+    cursor: pointer;
+
+    //  Back button.
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: calc( var( --mm-item-height ) / 2 );
+        left: var( --mm-item-indent );
+        width: var( --mm-arrow-size );
+        height: var( --mm-arrow-size );
+        border: 0px solid var( --mm-arrow-color );
+        border-top-width: var( --mm-arrow-weight );
+        border-left-width: var( --mm-arrow-weight );
+        transform: rotate( -45deg ) translate( 50%, -50% );
+    }
+
+    &#{$module}--home {
+        cursor: default;
+
+        &:before {
+            content: none;
+            display: none;
+        }
+    }
+
+    //  Title.
+    &:after {
+        content: attr(data-mm-title);
+        display: block;
+        position: absolute;
+        top: calc( var( --mm-item-height ) / 2 );
+        left: 40px;
+        right: 40px;
+        transform: translateY( -50% );
+        text-align: center;
+    }
+
+    &#{$module}--home {
+        &:after {
+            left: var( --mm-item-indent );
+        }
+    }
+}
+
+
+//  Listviews.
+#{$module} {
+
+    //  All listviews.
+    ul {
+        @extend %mm-reset;
+        @extend %mm-inherit;
+
+        position: fixed;
+        top: var( --mm-item-height );
+        bottom: 0;
+        left: 100%;
+        width: 100%;
+        overflow: hidden;
+        overflow-y: scroll;
+        border-top-width: 1px;
+        color: var( --mm-color );
+        cursor: default;
+        transition: left 0.3s ease;
+
+        //  Listview opened.
+        &#{$module}--open {
+            left: 0;
+        }
+
+        //  Child listview opened.
+        &#{$module}--parent {
+            left: -100%;
+        }
+    }
+
+    //  First level listview.
+    > ul {
+        left: 0;
+    }
+}
+
+
+//  Listitems.
+#{$module} {
+    li {
+        @extend %mm-reset;
+        @extend %mm-inherit;
+        
+        position: relative;
+        cursor: pointer;
+
+        //  The border
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: var( --mm-item-indent );
+            right: 0;
+            z-index: 12;
+            border: inherit;
+            border-top-width: 1px;
+        }
+
+        //  The arrow.
+        &:after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: calc( var( --mm-item-height ) / 2 );
+            right: calc( var( --mm-item-height ) / 2 );
+            z-index: 0;
+            width: var( --mm-arrow-size );
+            height: var( --mm-arrow-size );
+            border: 0px solid var( --mm-arrow-color );
+            border-top-width: var( --mm-arrow-weight );
+            border-right-width: var( --mm-arrow-weight );
+            border-bottom-width: 0;
+            transform: rotate( 45deg ) translate( 0, -50% );
+        }
+    }
+}
+
+
+//  Anchors.
+#{$module} {
+    a,
+    span {
+        @extend %mm-reset;
+        @extend %mm-inherit;
+
+        position: relative;
+        z-index: 1;
+        padding: var( --mm-item-padding ) var( --mm-item-indent );
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+
+        //  Show arrow for opening the submenu.
+        &:not(:last-child) {
+            width: calc( 100% - 50px );
+            border-right-width: 1px;
+        }
+    }
+
+    //  Show arrow for opening the submenu.
+    span {
+        background: transparent;
+    }
+}

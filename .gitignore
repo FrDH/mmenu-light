@@ -1,0 +1,10 @@
+# Ignore Mac system files.
+._*
+.DS_Store
+
+# Ignore sass-cache files.
+*.sass-cache*
+*.scssc
+
+# Ignore Gulp modules
+node_modules
