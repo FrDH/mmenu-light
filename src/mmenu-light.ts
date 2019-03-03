@@ -1,5 +1,5 @@
 /*!
- * mmenu-light v1.0.0
+ * mmenu-light v1.0.1
  * mmenujs.com/mmenu-light
  *    
  * Copyright (c) Fred Heusschen
@@ -130,7 +130,7 @@ const mmlight = (() => {
 
 		/**
 		 * Listener for the MediaQueryList.
-		 * @param {MediaQueryListEvent} mqle The event for the MediaQueryList.
+		 * @param {MediaQueryListEvent} mqle Event for the MediaQueryList.
 		 */
 		const mqListener = ( 
 			mqle : MediaQueryListEvent
@@ -144,10 +144,10 @@ const mmlight = (() => {
 
 			/**
 			 * Create the menu.
-			 * @param {string} [mediaQuery='all'] The media queury to match for the menu.
+			 * @param {string} [mediaQuery='all'] Media queury to match for the menu.
 			 */
 			create: ( 
-				mediaQuery : string
+				mediaQuery ?: string
 			) => {
 				if ( typeof mediaQuery == 'undefined' ) {
 					mediaQuery = 'all';
@@ -214,7 +214,7 @@ const mmlight = (() => {
 
 			/**
 			 * Open the given panel.
-			 * @param {HTMLElement} panel The panel to open.
+			 * @param {HTMLElement} panel Panel to open.
 			 */
 			openPanel: ( 
 				panel : HTMLElement
@@ -274,3 +274,5 @@ const mmlight = (() => {
 	};
 
 })();
+
+export default mmlight;

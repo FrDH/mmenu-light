@@ -16,15 +16,22 @@ $module: '.mm';
 
 //  The menu.
 #{$module} {
+
+    /** Color for text in the menu. */
     --mm-color: rgba( 0,0,0,0.8);
 
+    /** Height for menu items. */
     --mm-item-height: 50px;
-    --mm-line-height: 24px;
+
+    /** Indent for menu items. */
     --mm-item-indent: 20px;
 
+    --mm-line-height: 24px;
     --mm-item-padding: calc( ( var( --mm-item-height ) - var( --mm-line-height ) ) / 2 );
 
+    /** Color for the arrows. */
     --mm-arrow-color: rgba( 0, 0, 0, 0.3);
+
     --mm-arrow-size: 8px;
     --mm-arrow-weight: 2px;
 
@@ -39,7 +46,7 @@ $module: '.mm';
     max-width: 440px;
     overflow: hidden;
     color: var( --mm-arrow-color );
-    background: #fff;
+    background: #f3f3f3;
     border: 0px solid rgba( 0, 0, 0, 0.1 );
     line-height: var( --mm-line-height );
     box-shadow: 300px 0 0 1000px rgba(#000,0), 0 0 10px rgba(#000,0);
