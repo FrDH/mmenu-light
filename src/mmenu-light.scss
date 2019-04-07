@@ -122,19 +122,19 @@ $module: '.mm';
         top: var( --mm-item-height );
         bottom: 0;
         left: 100%;
-        width: 100%;
+        width: 0%;
         overflow: hidden;
-        overflow-y: scroll;
-        clip: rect(0,0,0,0);
+        overflow-y: auto;
         border-top-width: 1px;
         color: var( --mm-color );
         cursor: default;
-        transition: left 0.3s ease;
+        transition: left 0.3s ease, width 0s ease 0.3s;
 
         //  Listview opened.
         &#{$module}--open {
             left: 0;
-            clip: auto;
+            width: 100%;
+            transition-delay: 0s;
         }
 
         //  Child listview opened.
@@ -146,7 +146,7 @@ $module: '.mm';
     //  First level listview.
     > ul {
         left: 0;
-        clip: auto;
+        width: 100%;
     }
 }
 

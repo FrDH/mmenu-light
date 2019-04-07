@@ -1,5 +1,5 @@
 /*!
- * mmenu-light v1.0.2
+ * mmenu-light v1.0.3
  * mmenujs.com/mmenu-light
  *
  * Copyright (c) Fred Heusschen
