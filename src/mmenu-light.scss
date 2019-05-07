@@ -13,12 +13,10 @@ $module: '.mm';
     background: inherit;
 }
 
-
-//  The menu.
-#{$module} {
-
+//  Variables
+:root {
     /** Color for text in the menu. */
-    --mm-color: rgba( 0,0,0,0.8);
+    --mm-color: rgba(0, 0, 0, 0.8);
 
     /** Height for menu items. */
     --mm-item-height: 50px;
@@ -26,15 +24,24 @@ $module: '.mm';
     /** Indent for menu items. */
     --mm-item-indent: 20px;
 
+    /** Line height for menu items. */
     --mm-line-height: 24px;
-    --mm-item-padding: calc( ( var( --mm-item-height ) - var( --mm-line-height ) ) / 2 );
+
+    /** Height for the navbar. */
+    --mm-navbar-height: var(--mm-item-height);
 
     /** Color for the arrows. */
-    --mm-arrow-color: rgba( 0, 0, 0, 0.3);
+    --mm-arrow-color: rgba(0, 0, 0, 0.3);
 
-    --mm-arrow-size: 8px;
+    /** Size for the arrows. */
+    --mm-arrow-size: 10px;
+
+    /** Thickness for the arrows. */
     --mm-arrow-weight: 2px;
+}
 
+//  The menu.
+#{$module} {
     @extend %mm-reset;
 
     position: fixed;
@@ -45,25 +52,23 @@ $module: '.mm';
     min-width: 200px;
     max-width: 440px;
     overflow: hidden;
-    color: var( --mm-arrow-color );
+    color: var(--mm-arrow-color);
     background: #f3f3f3;
-    border: 0px solid rgba( 0, 0, 0, 0.1 );
-    line-height: var( --mm-line-height );
-    box-shadow: 300px 0 0 1000px rgba(#000,0), 0 0 10px rgba(#000,0);
-    transform: translateX( -100% );
+    border: 0px solid rgba(0, 0, 0, 0.1);
+    line-height: var(--mm-line-height);
+    box-shadow: 300px 0 0 100vw rgba(#000, 0), 0 0 20px rgba(#000, 0);
+    transform: translateX(-100%);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
     //  Menu opened.
     &#{$module}--open {
-        box-shadow: 300px 0 0 1000px rgba(#000,0.2), 0 0 20px rgba(#000,0.2);
-        transform: translateX( 0 );
+        box-shadow: 300px 0 0 100vw rgba(#000, 0.2), 0 0 20px rgba(#000, 0.2);
+        transform: translateX(0);
     }
 }
 
-
 //  Navbar.
 #{$module} {
-
     cursor: pointer;
 
     //  Back button.
@@ -71,14 +76,15 @@ $module: '.mm';
         content: '';
         display: block;
         position: absolute;
-        top: calc( var( --mm-item-height ) / 2 );
-        left: var( --mm-item-indent );
-        width: var( --mm-arrow-size );
-        height: var( --mm-arrow-size );
-        border: 0px solid var( --mm-arrow-color );
-        border-top-width: var( --mm-arrow-weight );
-        border-left-width: var( --mm-arrow-weight );
-        transform: rotate( -45deg ) translate( 50%, -50% );
+        top: calc(var(--mm-navbar-height) / 2);
+        left: var(--mm-item-indent);
+        width: var(--mm-arrow-size);
+        height: var(--mm-arrow-size);
+        margin-top: 2px;
+        border: 0px solid var(--mm-arrow-color);
+        border-top-width: var(--mm-arrow-weight);
+        border-left-width: var(--mm-arrow-weight);
+        transform: rotate(-45deg) translate(50%, -50%);
     }
 
     &#{$module}--home {
@@ -95,38 +101,33 @@ $module: '.mm';
         content: attr(data-mm-title);
         display: block;
         position: absolute;
-        top: calc( var( --mm-item-height ) / 2 );
-        left: 40px;
-        right: 40px;
-        transform: translateY( -50% );
+        top: 0;
+        left: calc(var(--mm-item-indent) + (var(--mm-arrow-size) * 2));
+        right: calc(var(--mm-item-indent) + (var(--mm-arrow-size) * 2));
+        line-height: var(--mm-navbar-height);
         text-align: center;
-    }
-
-    &#{$module}--home {
-        &:after {
-            left: var( --mm-item-indent );
-        }
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 }
 
-
 //  Listviews.
 #{$module} {
-
     //  All listviews.
     ul {
         @extend %mm-reset;
         @extend %mm-inherit;
 
         position: fixed;
-        top: var( --mm-item-height );
+        top: var(--mm-navbar-height);
         bottom: 0;
         left: 100%;
         width: 0%;
         overflow: hidden;
         overflow-y: auto;
         border-top-width: 1px;
-        color: var( --mm-color );
+        color: var(--mm-color);
         cursor: default;
         transition: left 0.3s ease, width 0s ease 0.3s;
 
@@ -150,13 +151,12 @@ $module: '.mm';
     }
 }
 
-
 //  Listitems.
 #{$module} {
     li {
         @extend %mm-reset;
         @extend %mm-inherit;
-        
+
         position: relative;
         cursor: pointer;
 
@@ -166,7 +166,7 @@ $module: '.mm';
             display: block;
             position: absolute;
             bottom: 0;
-            left: var( --mm-item-indent );
+            left: var(--mm-item-indent);
             right: 0;
             z-index: 12;
             border: inherit;
@@ -178,20 +178,19 @@ $module: '.mm';
             content: '';
             display: block;
             position: absolute;
-            top: calc( var( --mm-item-height ) / 2 );
-            right: calc( var( --mm-item-height ) / 2 );
+            top: calc(var(--mm-item-height) / 2);
+            right: calc(var(--mm-item-height) / 2);
             z-index: 0;
-            width: var( --mm-arrow-size );
-            height: var( --mm-arrow-size );
-            border: 0px solid var( --mm-arrow-color );
-            border-top-width: var( --mm-arrow-weight );
-            border-right-width: var( --mm-arrow-weight );
+            width: var(--mm-arrow-size);
+            height: var(--mm-arrow-size);
+            border: 0px solid var(--mm-arrow-color);
+            border-top-width: var(--mm-arrow-weight);
+            border-right-width: var(--mm-arrow-weight);
             border-bottom-width: 0;
-            transform: rotate( 45deg ) translate( 0, -50% );
+            transform: rotate(45deg) translate(0, -50%);
         }
     }
 }
-
 
 //  Anchors.
 #{$module} {
@@ -202,7 +201,8 @@ $module: '.mm';
 
         position: relative;
         z-index: 1;
-        padding: var( --mm-item-padding ) var( --mm-item-indent );
+        padding: calc((var(--mm-item-height) - var(--mm-line-height)) / 2)
+            var(--mm-item-indent);
     }
 
     a {
@@ -211,7 +211,7 @@ $module: '.mm';
 
         //  Show arrow for opening the submenu.
         &:not(:last-child) {
-            width: calc( 100% - 50px );
+            width: calc(100% - 50px);
             border-right-width: 1px;
         }
     }
