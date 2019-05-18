@@ -2,6 +2,7 @@
 	"name": "mmenu-light",
 	"version": "1.0.4",
 	"main": "dist/mmenu.js",
+	"module": "dist/mmenu.es6.js",
 	"author": "Fred Heusschen <info@frebsite.nl>",
 	"license": "CC-BY-4.0",
 	"repository": {
