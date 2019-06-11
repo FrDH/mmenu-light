@@ -1,5 +1,5 @@
 /*!
- * mmenu-light v1.0.4
+ * mmenu-light v1.0.6
  * mmenujs.com/mmenu-light
  *
  * Copyright (c) Fred Heusschen
@@ -45,11 +45,11 @@ const mmlight = (() => {
 
         //  Click a LI or SPAN in the menu
         //  -> Open submenu (if present)
-        document.addEventListener('click', evnt => {
+        const openSubmenu = (evnt: MouseEvent) => {
             const target = evnt.target as HTMLElement;
             const menu = target.closest('.mm');
             if (menu) {
-                let listitem = (evnt.target as HTMLElement).matches('li')
+                let listitem = target.matches('li')
                     ? target
                     : target.matches('span')
                     ? target.parentElement
@@ -57,20 +57,22 @@ const mmlight = (() => {
 
                 if (listitem) {
                     evnt.stopPropagation();
-                    listitem.parentElement.classList.add('mm--parent');
 
                     r(listitem.children).forEach(panel => {
                         if (panel.matches('ul')) {
+                            (listitem as HTMLElement).parentElement.classList.add(
+                                'mm--parent'
+                            );
                             menu['mmenu'].openPanel(panel);
                         }
                     });
                 }
             }
-        });
+        };
 
         //  Click the menu
         //  -> Close submenu
-        document.addEventListener('click', evnt => {
+        const closeSubmenu = (evnt: MouseEvent) => {
             const menu = evnt.target as HTMLElement;
             if (menu.matches('.mm')) {
                 evnt.stopPropagation();
@@ -86,11 +88,11 @@ const mmlight = (() => {
                     }
                 }
             }
-        });
+        };
 
         //  Click outside the menu
         //  -> Close menu
-        document.addEventListener('click', evnt => {
+        const closeMenu = (evnt: MouseEvent) => {
             const target = evnt.target as HTMLElement;
             if (target.closest('.mm')) {
                 return;
@@ -98,9 +100,16 @@ const mmlight = (() => {
 
             $('.mm.mm--open').forEach(menu => {
                 evnt.preventDefault();
-                menu.mmenu.close();
+                evnt.stopPropagation();
+
+                menu['mmenu'].close();
             });
-        });
+        };
+
+        document.addEventListener('click', openSubmenu);
+        document.addEventListener('click', closeSubmenu);
+        document.addEventListener('click', closeMenu);
+        document.addEventListener('touchstart', closeMenu);
     };
 
     //	The method.

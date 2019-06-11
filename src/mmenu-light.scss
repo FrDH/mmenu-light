@@ -44,6 +44,8 @@ $module: '.mm';
 #{$module} {
     @extend %mm-reset;
 
+    -webkit-tap-highlight-color: transparent;
+
     position: fixed;
     top: 0;
     bottom: 0;
@@ -103,12 +105,15 @@ $module: '.mm';
         position: absolute;
         top: 0;
         left: calc(var(--mm-item-indent) + (var(--mm-arrow-size) * 2));
-        right: calc(var(--mm-item-indent) + (var(--mm-arrow-size) * 2));
+        right: var(--mm-item-indent);
         line-height: var(--mm-navbar-height);
-        text-align: center;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+    }
+
+    &--home:after {
+        left: var(--mm-item-indent);
     }
 }
 

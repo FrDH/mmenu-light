@@ -1,6 +1,6 @@
 {
 	"name": "mmenu-light",
-	"version": "1.0.4",
+	"version": "1.0.6",
 	"main": "dist/mmenu.js",
 	"module": "dist/mmenu.es6.js",
 	"author": "Fred Heusschen <info@frebsite.nl>",
