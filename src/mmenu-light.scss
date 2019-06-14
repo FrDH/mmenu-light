@@ -40,11 +40,17 @@ $module: '.mm';
     --mm-arrow-weight: 2px;
 }
 
+//  The page
+body#{$module}--open {
+    overflow-y: hidden;
+}
+
 //  The menu.
 #{$module} {
     @extend %mm-reset;
 
     -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
 
     position: fixed;
     top: 0;
@@ -123,6 +129,8 @@ $module: '.mm';
     ul {
         @extend %mm-reset;
         @extend %mm-inherit;
+
+        -webkit-overflow-scrolling: touch;
 
         position: fixed;
         top: var(--mm-navbar-height);

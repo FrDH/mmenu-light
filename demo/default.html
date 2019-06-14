@@ -16,10 +16,12 @@
 				<a href="#menu"><span></span></a>
 				Demo
 			</div>
+
 			<div class="content">
 				<p><strong>This is a demo.</strong><br />
 					Click the hamburger icon to open the menu.</p>
 			</div>
+
 			<nav id="menu">
 				<ul>
 					<li class="selected"><a href="#">Home</a></li>
@@ -44,7 +46,7 @@
 		<script src="../dist/mmenu-light.js"></script>
 		<script>
 			const menu = mmlight( document.querySelector( '#menu' ) );
-			menu.create( 'all' ); 		// menu.create( '(min-width: 500px)' );
+			menu.create( 'all' ); 		// menu.create( '(max-width: 500px)' );
 			menu.init( 'selected' );	// menu.init( 'custom-selected-classname' );
 
 			//	Open the menu.

@@ -1,5 +1,4 @@
 /*!
- * mmenu-light v1.0.6
  * mmenujs.com/mmenu-light
  *
  * Copyright (c) Fred Heusschen
@@ -9,7 +8,9 @@
  * http://creativecommons.org/licenses/by/4.0/
  */
 
-//	Factory.
+/**
+ * Lightweight mobile menu
+ */
 const mmlight = (() => {
     /**
      * Convert a list to an array.
@@ -63,7 +64,7 @@ const mmlight = (() => {
                             (listitem as HTMLElement).parentElement.classList.add(
                                 'mm--parent'
                             );
-                            menu['mmenu'].openPanel(panel);
+                            menu['mmlight'].openPanel(panel);
                         }
                     });
                 }
@@ -84,7 +85,7 @@ const mmlight = (() => {
 
                     let parent = panel.parentElement.closest('ul');
                     if (parent) {
-                        menu['mmenu'].openPanel(parent);
+                        menu['mmlight'].openPanel(parent);
                     }
                 }
             }
@@ -102,7 +103,7 @@ const mmlight = (() => {
                 evnt.preventDefault();
                 evnt.stopPropagation();
 
-                menu['mmenu'].close();
+                menu['mmlight'].close();
             });
         };
 
@@ -112,8 +113,36 @@ const mmlight = (() => {
         document.addEventListener('touchstart', closeMenu);
     };
 
-    //	The method.
-    return menu => {
+    interface options {
+        mediaQuery?: string | number;
+        title?: string;
+    }
+
+    /**
+     * Default options for the menu.
+     */
+    const defaults: options = {
+        mediaQuery: 'all',
+        title: 'Menu'
+    };
+
+    /**
+     * The Method
+     * @param {HTMLElement} menu        Node for the menu.
+     * @param {object}      [options]   Override options for the menu.
+     */
+    const mmlight = (menu: HTMLElement, options?: options) => {
+        /**
+         * Completed options for the menu.
+         */
+        const opts: options = {};
+
+        //  Extend options
+        options = options || {};
+        ['mediaQuery', 'title'].forEach(key => {
+            opts[key] = options[key] || defaults[key];
+        });
+
         //  Add event listeners...
         addEventListeners();
 
@@ -137,13 +166,15 @@ const mmlight = (() => {
              * Create the menu.
              * @param {string} [mediaQuery='all'] Media queury to match for the menu.
              */
-            create: (mediaQuery?: string) => {
+            create: (mediaQuery?: string | number) => {
                 if (typeof mediaQuery == 'undefined') {
-                    mediaQuery = 'all';
+                    mediaQuery = opts.mediaQuery;
                 }
                 if (typeof mediaQuery == 'number') {
                     mediaQuery = '(max-width: ' + mediaQuery + 'px)';
                 }
+                opts.mediaQuery = mediaQuery;
+
                 mql = window.matchMedia(mediaQuery);
                 mql.addListener(mqListener);
                 menu.classList[mql.matches ? 'add' : 'remove']('mm');
@@ -186,6 +217,7 @@ const mmlight = (() => {
              */
             open: () => {
                 menu.classList.add('mm--open');
+                document.body.classList.add('mm--open');
 
                 return api;
             },
@@ -195,6 +227,7 @@ const mmlight = (() => {
              */
             close: () => {
                 menu.classList.remove('mm--open');
+                document.body.classList.remove('mm--open');
 
                 return api;
             },
@@ -213,10 +246,6 @@ const mmlight = (() => {
 
                 if (listitem === menu) {
                     menu.classList.add('mm--home');
-                    if (!title) {
-                        title = 'Menu';
-                    }
-                    menu.dataset.mmTitle = title;
                 } else {
                     menu.classList.remove('mm--home');
                     if (!title) {
@@ -226,10 +255,11 @@ const mmlight = (() => {
                             }
                         });
                     }
-                    if (title) {
-                        menu.dataset.mmTitle = title;
-                    }
                 }
+                if (!title) {
+                    title = opts.title;
+                }
+                menu.dataset.mmTitle = title;
 
                 $('.mm--open', menu).forEach(open => {
                     open.classList.remove('.mm--open', 'mm--parent');
@@ -249,11 +279,13 @@ const mmlight = (() => {
         };
 
         //  Add API to the HTMLElement.
-        menu.mmenu = api;
+        menu['mmlight'] = api;
 
         //  Return API.
         return api;
     };
+
+    return mmlight;
 })();
 
 export default mmlight;
