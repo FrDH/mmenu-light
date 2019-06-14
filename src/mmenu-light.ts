@@ -9,6 +9,10 @@
  * http://creativecommons.org/licenses/by/4.0/
  */
 
+interface Options {
+    bodyClose: boolean;
+}
+
 //	Factory.
 const mmlight = (() => {
     /**
@@ -31,7 +35,7 @@ const mmlight = (() => {
     };
 
     /** Add the event listeners to the document. */
-    var addEventListeners = () => {
+    var addEventListeners = (opts: Options) => {
         //  Clicking an A in the menu
         //  -> prevent bubbling up to the LI, UL or menu.
         document.addEventListener('click', evnt => {
@@ -108,14 +112,20 @@ const mmlight = (() => {
 
         document.addEventListener('click', openSubmenu);
         document.addEventListener('click', closeSubmenu);
-        document.addEventListener('click', closeMenu);
-        document.addEventListener('touchstart', closeMenu);
+        if(opts.bodyClose) {
+            document.addEventListener('click', closeMenu);
+            document.addEventListener('touchstart', closeMenu);
+        }
     };
 
     //	The method.
-    return menu => {
+    return (menu, options: Options) => {
+        const opts = (<any>Object).assign({}, {
+            bodyClose: true
+        }, options);
+
         //  Add event listeners...
-        addEventListeners();
+        addEventListeners(opts);
 
         //  ...only once per page load.
         addEventListeners = () => {};
