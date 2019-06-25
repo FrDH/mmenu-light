@@ -8,46 +8,53 @@
 		<title>mmenu light demo</title>
 
 		<link type="text/css" rel="stylesheet" href="css/demo.css" />
-		<link type="text/css" rel="stylesheet" href="../dist/mmenu-light.css" />
+		<link type="text/css" rel="stylesheet" href="../dist/mmenu-light.css?a=1" />
 	</head>
 	<body>
 		<div id="page">
 			<div class="header">
 				<a href="#menu"><span></span></a>
 				Demo
+				<nav id="menu">
+					<ul>
+						<li class="Selected"><a href="#">Home</a></li>
+						<li><span>About us</span>
+							<ul>
+								<li><a href="#about/history">History</a></li>
+								<li><span>The team</span>
+									<ul>
+										<li><a href="#about/team/management">Management</a></li>
+										<li><a href="#about/team/sales">Sales</a></li>
+										<li><a href="#about/team/development">Development</a></li>
+									</ul>
+								</li>
+								<li><a href="#about/address">Our address</a></li>
+							</ul>
+						</li>
+						<li><a href="#contact">Contact</a></li>
+					</ul>
+				</nav>
 			</div>
 
 			<div class="content">
 				<p><strong>This is a demo.</strong><br />
 					Click the hamburger icon to open the menu.</p>
 			</div>
-
-			<nav id="menu">
-				<ul>
-					<li class="selected"><a href="#">Home</a></li>
-					<li><span>About us</span>
-						<ul>
-							<li><a href="#about/history">History</a></li>
-							<li><span>The team</span>
-								<ul>
-									<li><a href="#about/team/management">Management</a></li>
-									<li><a href="#about/team/sales">Sales</a></li>
-									<li><a href="#about/team/development">Development</a></li>
-								</ul>
-							</li>
-							<li><a href="#about/address">Our address</a></li>
-						</ul>
-					</li>
-					<li><a href="#contact">Contact</a></li>
-				</ul>
-			</nav>
 		</div>
 
-		<script src="../dist/mmenu-light.js"></script>
+		<script src="../dist/mmenu-light.js?x=a"></script>
 		<script>
-			const menu = mmlight( document.querySelector( '#menu' ) );
-			menu.create( 'all' ); 		// menu.create( '(max-width: 500px)' );
-			menu.init( 'selected' );	// menu.init( 'custom-selected-classname' );
+			const menu = new MmenuLight( document.querySelector( '#menu' ), {
+				// title: 'Menu',
+				// theme: 'light',
+				// selected: 'Selected'
+			});
+			menu.enable( 'all' ); // '(max-width: 900px)'
+			menu.offcanvas({
+				// position: 'left' [| 'right'],
+				// move: true [| false],
+				// blockPage: true [| false | 'modal']
+			});
 
 			//	Open the menu.
 			document.querySelector( 'a[href="#menu"]' )

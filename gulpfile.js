@@ -8,20 +8,20 @@
 
 const { src, dest, watch, series, parallel } = require('gulp');
 
-const sass = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
-    cleancss = require('gulp-clean-css'),
-    typescript = require('gulp-typescript'),
-    terser = require('gulp-terser'),
-    rename = require('gulp-rename'),
-    replace = require('gulp-replace');
+//  For CSS
+const sass = require('gulp-sass');
+const autoprefixer = require('gulp-autoprefixer');
+const cleancss = require('gulp-clean-css');
 
-var inputDir = 'src',
-    outputDir = 'dist';
+//  For JS
+const typescript = require('gulp-typescript');
+const webpack = require('webpack-stream');
 
-/*
-	CSS tasks.
-*/
+//  Dirs
+const inputDir = 'src';
+const outputDir = 'dist';
+
+/** CSS task */
 const css = () => {
     return src(inputDir + '/**/*.scss')
         .pipe(sass().on('error', sass.logError))
@@ -30,61 +30,56 @@ const css = () => {
         .pipe(dest(outputDir));
 };
 
-const jsTranspile = (target, module) => {
-    return (
-        src('src/*.ts')
-            // First, we transpile back to JS.
-            .pipe(
-                typescript({
-                    target: target,
-                    module: module
-                })
-            )
-
-            // Next, uglify it.
-            .pipe(
-                terser({
-                    output: {
-                        comments: '/^!/'
-                    }
-                })
-            )
-    );
+/** JS transpile task */
+const jsTtranspile = () => {
+    return src([
+        inputDir + '/**/*.d.ts', // Include all typings.
+        inputDir + '/**/*.ts' // Include the needed ts files.
+    ])
+        .pipe(
+            typescript({
+                target: 'es6',
+                module: 'es6'
+            })
+        )
+        .pipe(dest(outputDir));
 };
 
-/** Save plugin to be used without UMD pattern or ES6 module. */
+/** JS Pack task */
+const jsPack = () => {
+    return src(inputDir + '/mmenu-light.js')
+        .pipe(
+            webpack({
+                // mode: 'development',
+                mode: 'production',
+                output: {
+                    filename: 'mmenu-light.js'
+                }
+                // optimization: {
+                //     minimize: false
+                // }
+            })
+        )
+        .pipe(dest(outputDir));
+};
+
+/*
+    $ gulp js
+*/
 const js = cb => {
-    return jsTranspile('es5', 'es6')
-        .pipe(rename('mmenu-light.js'))
-        .pipe(replace('export default mmlight;', ''))
-        .pipe(dest('dist'));
-};
-
-/** Save plugin to be used as an ES6 module. */
-const jsES6 = cb => {
-    return jsTranspile('es6', 'es6')
-        .pipe(rename('mmenu-light.es6.js'))
-        .pipe(dest('dist'));
-};
-
-/** Save plugin to be used with UMD pattern. */
-const jsUMD = cb => {
-    return jsTranspile('es5', 'umd')
-        .pipe(rename('mmenu-light.umd.js'))
-        .pipe(dest('dist'));
+    series(jsTtranspile, jsPack)(cb);
 };
 
 /*
 	$ gulp
 */
-exports.default = parallel(css, js, jsES6, jsUMD);
+exports.default = parallel(css, js);
 
 /*
 	$ gulp watch
 */
-const watchTask = cb => {
+exports.watch = cb => {
     watch(inputDir + '/**/*.scss', css);
-    watch(inputDir + '/**/*.ts', parallel(js, jsES6, jsUMD));
+    watch(inputDir + '/**/*.ts', js);
     cb();
 };
-exports.watch = watchTask;

@@ -1,0 +1,12 @@
+#{$module} {
+    //  From the right.
+    &#{$module}--right {
+        left: auto;
+        right: 0;
+
+        //  Menu closed.
+        &:not(#{$module}--open) {
+            transform: translateX(100%);
+        }
+    }
+}

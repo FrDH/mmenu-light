@@ -1,0 +1,224 @@
+@import 'variables';
+
+%mm-reset {
+    display: block;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+//  Variables
+:root {
+    /** Height for menu items. */
+    --mm-item-height: 50px;
+
+    /** Indent for menu items. */
+    --mm-item-indent: 20px;
+
+    /** Line height for menu items. */
+    --mm-line-height: 24px;
+
+    /** Size for the arrows. */
+    --mm-arrow-size: 10px;
+
+    /** Thickness for the arrows. */
+    --mm-arrow-weight: 2px;
+}
+
+//  The menu.
+#{$module} {
+    @extend %mm-reset;
+
+    //  Prevent the entire menu from highlighting when clicking the navbar.
+    -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
+
+    //  This creates a new viewport from the menu so the panels can be fixed.
+    transform: translateX(0px);
+
+    //  Because overflow: hidden doesn't fully work due to fixed positioned elements.
+    clip-path: inset(0px 0px 0px 0px);
+    overflow: hidden;
+
+    color: #444;
+    background: #f3f3f3;
+    line-height: var(--mm-line-height);
+}
+
+//  Navbar.
+#{$module} {
+    cursor: pointer;
+
+    //  Back button.
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: calc(var(--mm-item-height) / 2);
+        left: var(--mm-item-indent);
+        width: var(--mm-arrow-size);
+        height: var(--mm-arrow-size);
+        margin-top: 2px;
+
+        border-top: var(--mm-arrow-weight) solid currentColor;
+        border-left: var(--mm-arrow-weight) solid currentColor;
+        transform: rotate(-45deg) translate(50%, -50%);
+        opacity: $mm_navbar_opac;
+    }
+
+    //  Back button when the main listview is opened.
+    &#{$module}--main {
+        cursor: default;
+
+        &:before {
+            content: none;
+            display: none;
+        }
+    }
+
+    //  Title.
+    &:after {
+        content: attr(data-mm-title);
+        display: block;
+        position: absolute;
+        top: 0;
+        left: calc(var(--mm-item-indent) + (var(--mm-arrow-size) * 2));
+        right: var(--mm-item-indent);
+        line-height: var(--mm-item-height);
+        opacity: $mm_navbar_opac;
+
+        //  Ellipsis
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    //  Title when the main listview is opened.
+    &--main:after {
+        left: var(--mm-item-indent);
+    }
+}
+
+//  Listviews.
+#{$module} {
+    //  All listviews.
+    ul {
+        @extend %mm-reset;
+
+        -webkit-overflow-scrolling: touch;
+
+        position: fixed;
+        top: var(--mm-item-height);
+        bottom: 0;
+        left: 100%;
+        width: 100%;
+        overflow: hidden;
+        overflow-y: auto;
+        background: inherit;
+        transition: left 0.3s ease;
+        cursor: default;
+
+        //  The border.
+        &:before {
+            content: '';
+            display: block;
+
+            border-top: 1px solid currentColor;
+            opacity: $mm_border_opac;
+        }
+    }
+
+    //  First level listview.
+    > ul {
+        left: 0;
+    }
+
+    //  Listview opened.
+    #{$module}--open {
+        left: 0;
+    }
+
+    //  Child listview opened.
+    #{$module}--parent {
+        left: -100%;
+    }
+}
+
+//  Listitems.
+#{$module} {
+    li {
+        @extend %mm-reset;
+
+        position: relative;
+        background: inherit;
+        cursor: pointer;
+
+        //  The arrow.
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: calc(var(--mm-item-height) / 2);
+            right: calc(var(--mm-item-height) / 2);
+            z-index: 0;
+
+            width: var(--mm-arrow-size);
+            height: var(--mm-arrow-size);
+            border-top: var(--mm-arrow-weight) solid currentColor;
+            border-right: var(--mm-arrow-weight) solid currentColor;
+            transform: rotate(45deg) translate(0, -50%);
+            opacity: $mm_arrow_opac;
+        }
+
+        //  The border.
+        &:after {
+            content: '';
+            display: block;
+            margin-left: var(--mm-item-indent);
+
+            border-top: 1px solid currentColor;
+            opacity: $mm_border_opac;
+        }
+    }
+}
+
+//  Anchors.
+#{$module} {
+    a,
+    span {
+        @extend %mm-reset;
+
+        position: relative;
+        z-index: 1;
+        padding: calc((var(--mm-item-height) - var(--mm-line-height)) / 2)
+            var(--mm-item-indent);
+    }
+
+    a {
+        background: inherit;
+        color: inherit;
+        text-decoration: none;
+
+        //  Show arrow for opening the submenu.
+        &:not(:last-child) {
+            width: calc(100% - 50px);
+
+            //  Border on the right.
+            &:after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                border-right: 1px solid currentColor;
+                opacity: $mm_border_opac;
+            }
+        }
+    }
+
+    //  Show arrow for opening the submenu.
+    span {
+        background: transparent;
+    }
+}

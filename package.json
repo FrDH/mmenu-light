@@ -1,6 +1,6 @@
 {
 	"name": "mmenu-light",
-	"version": "1.0.7",
+	"version": "1.1.0",
 	"main": "dist/mmenu.js",
 	"module": "dist/mmenu.es6.js",
 	"author": "Fred Heusschen <info@frebsite.nl>",
@@ -28,14 +28,12 @@
 		"build": "gulp default"
 	},
 	"devDependencies": {
-		"gulp": "^4.0.0",
-		"gulp-autoprefixer": "^6.0.0",
-		"gulp-clean-css": "^4.0.0",
-		"gulp-rename": "^1.4.0",
-		"gulp-replace": "^1.0.0",
+		"gulp": "^4.0.2",
+		"gulp-autoprefixer": "^6.1.0",
+		"gulp-clean-css": "^4.2.0",
 		"gulp-sass": "^4.0.2",
-		"gulp-terser": "^1.1.7",
-		"gulp-typescript": "^5.0.0",
-		"typescript": "^3.3.1"
+		"gulp-typescript": "^5.0.1",
+		"typescript": "^3.4.5",
+		"webpack-stream": "^5.2.1"
 	}
 }
