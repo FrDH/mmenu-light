@@ -33,8 +33,7 @@ MmenuLight.prototype.open = function () {
         this.menu.classList.add('mm--open');
         document.body.classList.add('mm-body--open');
         //  Dispatch the event.
-        var event = new Event('mm:open');
-        this.menu.dispatchEvent(event);
+        this.menu.dispatchEvent(new Event('mm:open'));
     }
 };
 /**
@@ -44,8 +43,7 @@ MmenuLight.prototype.close = function () {
     this.menu.classList.remove('mm--open');
     document.body.classList.remove('mm-body--open');
     //  Dispatch the event.
-    var event = new Event('mm:close');
-    this.menu.dispatchEvent(event);
+    this.menu.dispatchEvent(new Event('mm:close'));
 };
 /**
  * Make the menu off-canvas.
