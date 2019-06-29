@@ -36,7 +36,7 @@
     //  This creates a new viewport from the menu so the panels can be fixed.
     transform: translateX(0px);
 
-    //  Because overflow: hidden doesn't fully work due to fixed positioned elements.
+    //  Because overflow: hidden alone doesn't fully work due to fixed positioned elements.
     clip-path: inset(0px 0px 0px 0px);
     overflow: hidden;
 
@@ -85,20 +85,25 @@
         left: 0;
         right: 0;
         height: var(--mm-item-height);
+        padding-left: calc(var(--mm-item-indent) + (var(--mm-arrow-size) * 2));
         padding-right: var(--mm-item-indent);
         line-height: var(--mm-item-height);
-        text-indent: calc(var(--mm-item-indent) + (var(--mm-arrow-size) * 2));
         opacity: $mm_navbar_opac;
 
         //  Ellipsis
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+
+        //  The border.
+        box-shadow: 0 1px 0 0
+                rgba(255, 255, 255, 1 - ($mm_border_opac/$mm_navbar_opac)),
+            0 1px 0 0 currentColor;
     }
 
     //  Title when the main listview is opened.
     &--main:after {
-        text-indent: var(--mm-item-indent);
+        padding-left: var(--mm-item-indent);
     }
 }
 
@@ -114,30 +119,29 @@
         top: var(--mm-item-height);
         bottom: 0;
         left: 100%;
-        width: 100%;
+        width: 0px;
         overflow: hidden;
         overflow-y: auto;
         background: inherit;
-        transition: left 0.3s ease;
+        transition: left 0.3s ease, width 0s linear 0.4s;
         cursor: default;
-
-        //  The border.
-        box-shadow: 0 -1px 0 0 rgba(255, 255, 255, 1 - $mm_border_opac),
-            0 -1px 0 0 currentColor;
     }
 
     //  First level listview.
     > ul {
         left: 0;
+        width: 100%;
     }
 
     //  Listview opened.
-    #{$module}--open {
+    ul#{$module}--open {
         left: 0;
+        width: 100%;
+        transition-delay: 0s, 0s;
     }
 
     //  Child listview opened.
-    #{$module}--parent {
+    ul#{$module}--parent {
         left: -100%;
     }
 }
