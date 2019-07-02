@@ -1,0 +1,33 @@
+/*
+    Just a little explanation about the iOS Safari fix.
+
+    iOS safari has two weird overflowing issues:
+
+    1) The menu (NAV) has 'overflow: hidden;', this correctly hides the sub-listviews (UL UL) that are not yet opened.
+        But weirdly, those sub-listviews do overlay the content, meaning the user can't click the "blocker" to close the menu.
+        The user is actually clicking the invisible sub-listviews.
+
+        Solution:
+        Push out the sub-listviews (UL UL) that are not yet opened by adding 'margin-right: 100vw'.
+        .mm ul {
+            margin-left: 100vw;
+        }
+        .mm ul.mm--open {
+            margin-left: 0;
+        }
+        Use a 0s transition-duration and a variable transition-delay for timing when the sub-listviews appear and disappear.
+
+
+    2) Sub-listviews (that are scrollable) are not visible if they are positioned outside of their parent because the parent has 'overflow: hidden'.
+        This makes a sub-listviews (UL UL) invisible because it is next to its parent.
+
+        Solution:
+        Make all listviews (UL) that are pushed out to the left 200% wide and fill half of it with padding on the right.
+        This way, its sub-listviews (UL UL) is still in its parent.
+        .mm ul.mm--parent {
+            width: 200%;
+            padding-right: 100%;
+        }
+        Unfortunately, this reinstates the first issue, the user can't click the "blocker" to close the menu.
+        So again, use a 0s transition-duration and a variable transition-delay for timing when the listviews grow / shrink.
+*/

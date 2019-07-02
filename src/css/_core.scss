@@ -1,3 +1,5 @@
+$module: '.mm';
+
 @import 'variables';
 
 %mm-reset {
@@ -33,16 +35,13 @@
     -webkit-tap-highlight-color: transparent;
     -webkit-overflow-scrolling: touch;
 
-    //  This creates a new viewport from the menu so the panels can be fixed.
-    transform: translateX(0px);
-
-    //  Because overflow: hidden alone doesn't fully work due to fixed positioned elements.
-    clip-path: inset(0px 0px 0px 0px);
     overflow: hidden;
-
     color: #444;
     background: #f3f3f3;
     line-height: var(--mm-line-height);
+
+    //  This creates a new viewport from the menu so the panels can be fixed.
+    transform: translateX(0px);
 }
 
 //  Navbar.
@@ -117,32 +116,55 @@
 
         position: fixed;
         top: var(--mm-item-height);
-        bottom: 0;
         left: 100%;
-        width: 0px;
+        bottom: 0;
+        width: 100%;
+        margin-left: 100vw; // Fix for weird overflowing issue on iOS safari
         overflow: hidden;
         overflow-y: auto;
         background: inherit;
-        transition: left 0.3s ease, width 0s linear 0.4s;
+        transition: left $mm_transition_duration ease 0s,
+            // Fix for weird overflowing issue on iOS safari
+                width 0s linear $mm_transition_duration + 0.1,
+            padding-right 0s linear $mm_transition_duration + 0.1,
+            margin-left 0s linear $mm_transition_duration + 0.1;
+
         cursor: default;
+
+        &:after {
+            content: '';
+            display: block;
+            height: var(--mm-item-height);
+        }
     }
 
     //  First level listview.
     > ul {
         left: 0;
-        width: 100%;
+        margin-left: 0;
     }
 
     //  Listview opened.
     ul#{$module}--open {
         left: 0;
-        width: 100%;
-        transition-delay: 0s, 0s;
+
+        // Fix for weird overflowing issue on iOS safari
+        margin-left: 0;
+        transition-delay: 0s, $mm_transition_duration + 0.1,
+            $mm_transition_duration + 0.1, 0s;
+        // /Fix
     }
 
     //  Child listview opened.
     ul#{$module}--parent {
         left: -100%;
+
+        // Fix for weird overflowing issue on iOS safari
+        width: 200%;
+        padding-right: 100%;
+        transition-delay: 0s;
+        overflow-y: hidden;
+        // /Fix
     }
 }
 
@@ -203,7 +225,7 @@
 
         //  Show arrow for opening the submenu.
         &:not(:last-child) {
-            width: calc(100% - 50px);
+            width: calc(100% - var(--mm-item-height));
 
             //  Border on the right.
             &:after {
