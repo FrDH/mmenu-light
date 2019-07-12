@@ -13,17 +13,20 @@ export default class MmenuLight {
     /**	Default options for menus. */
     static options: mmOptions = options.core;
 
+    /**	Default off-canvas options for menus. */
+    static optionsOffcanvas: mmOptionsOffcanvas = options.offcanvas;
+
     /**	Options for the menu. */
     options: mmOptions;
 
     /** HTML element for the menu. */
     menu: HTMLElement;
 
-    /**	Default off-canvas options for menus. */
-    static optionsOffcanvas: mmOptionsOffcanvas = options.offcanvas;
-
     /** Off-canvas add-on */
     offcanvas: Function;
+
+    /** HTML element for the blocker (off-canvas add-on). */
+    blocker: HTMLElement;
 
     /** Open the menu (off-canvas add-on). */
     open: Function;

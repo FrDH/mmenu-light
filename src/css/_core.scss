@@ -101,7 +101,7 @@ $module: '.mm';
     }
 
     //  Title when the main listview is opened.
-    &--main:after {
+    &#{$module}--main:after {
         padding-left: var(--mm-item-indent);
     }
 }

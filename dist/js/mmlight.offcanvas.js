@@ -1,7 +1,6 @@
 import MmenuLight from './mmlight';
 import * as toggler from './matchmedia';
 import * as support from './_support';
-var blocker;
 const _initAnchors = function () {
     /**
      * Click outside the menu: close the menu.
@@ -23,7 +22,7 @@ const _initAnchors = function () {
         evnt.stopImmediatePropagation();
         return true;
     };
-    blocker.addEventListener(support.touch ? 'touchstart' : 'mousedown', closeMenu);
+    this.blocker.addEventListener(support.touch ? 'touchstart' : 'mousedown', closeMenu);
 };
 /**
  * Open the menu.
@@ -32,6 +31,9 @@ MmenuLight.prototype.open = function () {
     if (this.menu.matches('.mm')) {
         this.menu.classList.add('mm--open');
         document.body.classList.add('mm-body--open');
+        if (this.blocker) {
+            this.blocker.classList.add('mm--open');
+        }
         //  Dispatch the event.
         this.menu.dispatchEvent(new Event('mm:open'));
     }
@@ -42,6 +44,9 @@ MmenuLight.prototype.open = function () {
 MmenuLight.prototype.close = function () {
     this.menu.classList.remove('mm--open');
     document.body.classList.remove('mm-body--open');
+    if (this.blocker) {
+        this.blocker.classList.remove('mm--open');
+    }
     //  Dispatch the event.
     this.menu.dispatchEvent(new Event('mm:close'));
 };
@@ -81,9 +86,9 @@ export default function (options) {
     }
     //  Block the page while the menu is open.
     if (options.blockPage) {
-        blocker = document.createElement('div');
-        blocker.classList.add('mm-blocker');
-        document.body.append(blocker);
+        this.blocker = document.createElement('div');
+        this.blocker.classList.add('mm-blocker');
+        document.body.append(this.blocker);
         //  Close the menu when clicking outside it (non-modal).
         if (options.blockPage != 'modal') {
             _initAnchors.call(this);

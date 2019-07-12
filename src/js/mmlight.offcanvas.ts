@@ -2,8 +2,6 @@ import MmenuLight from './mmlight';
 import * as toggler from './matchmedia';
 import * as support from './_support';
 
-var blocker: HTMLElement;
-
 const _initAnchors = function(this: MmenuLight) {
     /**
      * Click outside the menu: close the menu.
@@ -30,7 +28,7 @@ const _initAnchors = function(this: MmenuLight) {
         return true;
     };
 
-    blocker.addEventListener(
+    this.blocker.addEventListener(
         support.touch ? 'touchstart' : 'mousedown',
         closeMenu
     );
@@ -44,6 +42,10 @@ MmenuLight.prototype.open = function(this: MmenuLight) {
         this.menu.classList.add('mm--open');
         document.body.classList.add('mm-body--open');
 
+        if (this.blocker) {
+            this.blocker.classList.add('mm--open');
+        }
+
         //  Dispatch the event.
         this.menu.dispatchEvent(new Event('mm:open'));
     }
@@ -55,6 +57,10 @@ MmenuLight.prototype.open = function(this: MmenuLight) {
 MmenuLight.prototype.close = function(this: MmenuLight) {
     this.menu.classList.remove('mm--open');
     document.body.classList.remove('mm-body--open');
+
+    if (this.blocker) {
+        this.blocker.classList.remove('mm--open');
+    }
 
     //  Dispatch the event.
     this.menu.dispatchEvent(new Event('mm:close'));
@@ -109,10 +115,10 @@ export default function(this: MmenuLight, options?: mmOptionsOffcanvas) {
 
     //  Block the page while the menu is open.
     if (options.blockPage) {
-        blocker = document.createElement('div');
-        blocker.classList.add('mm-blocker');
+        this.blocker = document.createElement('div');
+        this.blocker.classList.add('mm-blocker');
 
-        document.body.append(blocker);
+        document.body.append(this.blocker);
 
         //  Close the menu when clicking outside it (non-modal).
         if (options.blockPage != 'modal') {

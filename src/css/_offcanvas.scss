@@ -63,7 +63,7 @@
     transition-delay: $mm_transition_duration * 0.5,
         $mm_transition_duration * 1.5;
 
-    #{$module}-body--open & {
+    &#{$module}--open {
         top: 0;
         opacity: 1;
 
