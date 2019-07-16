@@ -1,5 +1,4 @@
 import MmenuLight from './mmlight';
-import * as toggler from './matchmedia';
 import * as support from './_support';
 const _initAnchors = function () {
     /**
@@ -61,9 +60,10 @@ export default function (options) {
     //  Add off-canvas styles and behavior.
     this.menu.classList.add('mm--offcanvas');
     //  Close menu when disabled.
-    toggler.add(() => { }, () => {
+    this.toggler.add(() => { }, () => {
         this.close();
     });
+    //  Position: right
     if (options.position == 'right') {
         this.menu.classList.add('mm--right');
     }
@@ -71,7 +71,7 @@ export default function (options) {
     if (options.move) {
         /** Original position in the DOM for the menu. */
         let orgPosition;
-        toggler.add(() => {
+        this.toggler.add(() => {
             //  Store original menu position.
             orgPosition = document.createComment('original menu location');
             this.menu.after(orgPosition);
@@ -88,10 +88,20 @@ export default function (options) {
     if (options.blockPage) {
         this.blocker = document.createElement('div');
         this.blocker.classList.add('mm-blocker');
+        //  Position: right
+        if (options.position == 'right') {
+            this.blocker.classList.add('mm--right');
+        }
+        //  Append to the <body>.
         document.body.append(this.blocker);
         //  Close the menu when clicking outside it (non-modal).
         if (options.blockPage != 'modal') {
             _initAnchors.call(this);
         }
+        this.toggler.add(() => {
+            this.blocker.classList.remove('mm-hidden');
+        }, () => {
+            this.blocker.classList.add('mm-hidden');
+        });
     }
 }

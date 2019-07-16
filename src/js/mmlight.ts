@@ -1,6 +1,6 @@
 import version from '../_version';
+import MMToggler from './matchmedia';
 import * as options from './_options';
-import * as toggler from './matchmedia';
 import { r, $ } from './helpers';
 
 /**
@@ -34,6 +34,9 @@ export default class MmenuLight {
     /** Close the menu (off-canvas add-on). */
     close: Function;
 
+    /** The Match Media Toggler. */
+    toggler: MMToggler;
+
     /**
      * Create a lightweight mobile menu.
      *
@@ -61,20 +64,20 @@ export default class MmenuLight {
      * @param {string} [mediaQuery='all'] Media queury to match for the menu.
      */
     enable(mediaQuery: string = 'all') {
-        toggler.init(mediaQuery);
-        toggler.add(
+        this.toggler = new MMToggler(mediaQuery);
+        this.toggler.add(
             () => this.menu.classList.add('mm'),
             () => this.menu.classList.remove('mm')
         );
 
-        return toggler;
+        return this.toggler;
     }
 
     /**
      * Disable the menu.
      */
     disable() {
-        toggler.destroy();
+        this.toggler.destroy();
     }
 
     /**

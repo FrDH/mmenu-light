@@ -1,3 +1,15 @@
+//  Variables
+:root {
+    /** Width for the menu. */
+    --mm-width: 80%;
+
+    /** Min-width for the menu. */
+    --mm-min-width: 200px;
+
+    /** Max-width for the menu. */
+    --mm-max-width: 440px;
+}
+
 //  The rest of the page
 #{$module}-body--open {
     //  Somewhat prevents scrolling.
@@ -17,10 +29,10 @@
         top: 0;
         bottom: 0;
         left: 0;
-        z-index: 9999;
-        width: 80%;
-        min-width: 200px;
-        max-width: 440px;
+        z-index: 9995;
+        width: var(--mm-width);
+        min-width: var(--mm-min-width);
+        max-width: var(--mm-max-width);
 
         transition: transform $mm_transition_duration ease;
 
@@ -41,6 +53,7 @@
         }
     }
 }
+
 //  The page-blocker
 #{$module}-blocker {
     //  Re-enables the disabled mouse events.
@@ -48,25 +61,30 @@
 
     display: block;
     position: fixed;
-    top: 100%;
     bottom: 0;
-    left: 0;
     right: 0;
-    z-index: 9998;
-
     background: rgba(#000, 0.2);
+
+    //  While the menu is closing, the blocker is full-width below the menu.
+    top: 100%;
+    z-index: 9990;
+    width: 100%;
     opacity: 0;
 
     transition-property: opacity, top;
     transition-timing-function: ease, linear;
     transition-duration: $mm_transition_duration * 1.5, 0s;
-    transition-delay: $mm_transition_duration * 0.5,
-        $mm_transition_duration * 1.5;
+    transition-delay: 0s, $mm_transition_duration * 1.5;
 
+    //  When the menu is opened, it is above (but next to) the menu.
     &#{$module}--open {
         top: 0;
+        z-index: 9999;
+        width: calc(100% - var(--mm-width));
+        min-width: calc(100% - var(--mm-max-width));
+        max-width: calc(100% - var(--mm-min-width));
         opacity: 1;
 
-        transition-delay: $mm_transition_duration * 0.5, 0s;
+        transition-delay: $mm_transition_duration, 0s;
     }
 }

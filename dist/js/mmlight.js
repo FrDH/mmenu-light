@@ -1,6 +1,6 @@
 import version from '../_version';
+import MMToggler from './matchmedia';
 import * as options from './_options';
-import * as toggler from './matchmedia';
 import { r, $ } from './helpers';
 /**
  * Class for a lightweight mobile menu.
@@ -29,15 +29,15 @@ export default class MmenuLight {
      * @param {string} [mediaQuery='all'] Media queury to match for the menu.
      */
     enable(mediaQuery = 'all') {
-        toggler.init(mediaQuery);
-        toggler.add(() => this.menu.classList.add('mm'), () => this.menu.classList.remove('mm'));
-        return toggler;
+        this.toggler = new MMToggler(mediaQuery);
+        this.toggler.add(() => this.menu.classList.add('mm'), () => this.menu.classList.remove('mm'));
+        return this.toggler;
     }
     /**
      * Disable the menu.
      */
     disable() {
-        toggler.destroy();
+        this.toggler.destroy();
     }
     /**
      * Initiate the selected listitem / open the current panel.

@@ -10,3 +10,12 @@
         }
     }
 }
+
+//  The page-blocker
+#{$module}-blocker {
+    //  From the right.
+    &#{$module}--right {
+        right: auto;
+        left: 0;
+    }
+}

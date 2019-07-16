@@ -27,6 +27,11 @@ $module: '.mm';
     --mm-arrow-weight: 2px;
 }
 
+//  Generic.
+#{$module}-hidden {
+    display: none !important;
+}
+
 //  The menu.
 #{$module} {
     @extend %mm-reset;
@@ -36,6 +41,8 @@ $module: '.mm';
     -webkit-overflow-scrolling: touch;
 
     overflow: hidden;
+    clip-path: inset(0 0 0 0);
+
     color: #444;
     background: #f3f3f3;
     line-height: var(--mm-line-height);
@@ -84,7 +91,7 @@ $module: '.mm';
         left: 0;
         right: 0;
         height: var(--mm-item-height);
-        padding-left: calc(var(--mm-item-indent) + (var(--mm-arrow-size) * 2));
+        padding-left: calc(var(--mm-item-indent) * 2);
         padding-right: var(--mm-item-indent);
         line-height: var(--mm-item-height);
         opacity: $mm_navbar_opac;
@@ -118,19 +125,21 @@ $module: '.mm';
         top: var(--mm-item-height);
         left: 100%;
         bottom: 0;
-        width: 100%;
-        margin-left: 100vw; // Fix for weird overflowing issue on iOS safari
-        overflow: hidden;
+
+        //  Fix for weird iOS Safari issue:
+        //  A fixed element is not visible outside of its parent if its parent is scrollable.
+        width: 200%;
+        padding-right: 100%;
+        //  /Fix
+
+        overflow: visible;
         overflow-y: auto;
         background: inherit;
-        transition: left $mm_transition_duration ease 0s,
-            // Fix for weird overflowing issue on iOS safari
-                width 0s linear $mm_transition_duration + 0.1,
-            padding-right 0s linear $mm_transition_duration + 0.1,
-            margin-left 0s linear $mm_transition_duration + 0.1;
+        transition: left $mm_transition_duration ease 0s;
 
         cursor: default;
 
+        //  Because padding-bottom doesn't work if it is scrollable.
         &:after {
             content: '';
             display: block;
@@ -141,30 +150,17 @@ $module: '.mm';
     //  First level listview.
     > ul {
         left: 0;
-        margin-left: 0;
     }
 
     //  Listview opened.
     ul#{$module}--open {
         left: 0;
-
-        // Fix for weird overflowing issue on iOS safari
-        margin-left: 0;
-        transition-delay: 0s, $mm_transition_duration + 0.1,
-            $mm_transition_duration + 0.1, 0s;
-        // /Fix
     }
 
     //  Child listview opened.
     ul#{$module}--parent {
         left: -100%;
-
-        // Fix for weird overflowing issue on iOS safari
-        width: 200%;
-        padding-right: 100%;
-        transition-delay: 0s;
         overflow-y: hidden;
-        // /Fix
     }
 }
 
