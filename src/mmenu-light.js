@@ -16,5 +16,8 @@ import offcanvas from '../dist/js/mmlight.offcanvas';
 
 MmenuLight.prototype.offcanvas = offcanvas;
 
+//  Export module
+export default MmenuLight;
+
 //	Global namespace
 window.MmenuLight = MmenuLight;

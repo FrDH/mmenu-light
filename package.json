@@ -1,6 +1,6 @@
 {
 	"name": "mmenu-light",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"main": "dist/mmenu-light.js",
 	"module": "src/mmenu-light.js",
 	"author": "Fred Heusschen <info@frebsite.nl>",
