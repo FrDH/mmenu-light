@@ -37,11 +37,13 @@
         max-width: $mm_max_width; // IE11 fallback
         max-width: var(--mm-max-width);
 
-        transition: transform $mm_transition_duration ease;
+        transition: transform $mm_transition_duration ease 0s, bottom 0s ease 0s;
 
         //  Menu closed.
         &:not(#{$module}--open) {
+            bottom: 100%;
             transform: translateX(-100%);
+            transition-delay: 0s, $mm_transition_duration * 2;
         }
     }
 
