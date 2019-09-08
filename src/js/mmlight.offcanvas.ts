@@ -68,11 +68,18 @@ MmenuLight.prototype.close = function(this: MmenuLight) {
 /**
  * Make the menu off-canvas.
  *
- * @param {object} [options] Off-canvas options for the menu.
+ * @param {object} [opts] Off-canvas options for the menu.
  */
-export default function(this: MmenuLight, options?: mmOptionsOffcanvas) {
+export default function(this: MmenuLight, opts?: mmOptionsOffcanvas) {
+    var options: mmOptionsOffcanvas = {};
+
     //  Extend options with defaults.
-    options = Object.assign(MmenuLight.optionsOffcanvas, options);
+    Object.keys(MmenuLight.optionsOffcanvas).forEach(key => {
+        options[key] =
+            typeof opts[key] != 'undefined'
+                ? opts[key]
+                : MmenuLight.optionsOffcanvas[key];
+    });
 
     //  Add off-canvas styles and behavior.
     this.menu.classList.add('mm--offcanvas');

@@ -1,0 +1,66 @@
+#{$module} {
+    cursor: pointer;
+
+    //  Back button.
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: $mm_item_height / 2; // IE11 fallback
+        top: calc(var(--mm-item-height) / 2);
+        left: $mm_item_indent; // IE11 fallback
+        left: var(--mm-item-indent);
+        width: $mm_arrow_size;
+        height: $mm_arrow_size;
+        margin-top: 2px;
+
+        border-top: $mm_arrow_weight solid;
+        border-left: $mm_arrow_weight solid;
+        transform: rotate(-45deg) translate(50%, -50%);
+        opacity: $mm_navbar_opac;
+    }
+
+    //  Back button when the main listview is opened.
+    &#{$module}--main {
+        cursor: default;
+
+        &:before {
+            content: none;
+            display: none;
+        }
+    }
+
+    //  Title.
+    &:after {
+        content: attr(data-mm-title);
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: $mm_item_height; // IE11 fallback
+        height: var(--mm-item-height);
+        padding: 0 $mm_item_indent * 2; // IE11 fallback
+        padding: 0 calc(var(--mm-item-indent) * 2);
+        line-height: $mm_item_height; // IE11 fallback
+        line-height: var(--mm-item-height);
+        opacity: $mm_navbar_opac;
+        text-align: center;
+
+        //  Ellipsis
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        //  The border.
+        box-shadow: 0 1px 0 0
+                rgba(255, 255, 255, 1 - ($mm_border_opac/$mm_navbar_opac)),
+            0 1px 0 0 currentColor;
+    }
+
+    //  Title when the main listview is opened.
+    &#{$module}--main:after {
+        padding-left: $mm_item_indent; // IE11 fallback
+        padding-left: var(--mm-item-indent);
+    }
+}

@@ -1,13 +1,13 @@
 //  Variables
 :root {
     /** Width for the menu. */
-    --mm-width: 80%;
+    --mm-width: #{$mm_width};
 
     /** Min-width for the menu. */
-    --mm-min-width: 200px;
+    --mm-min-width: #{$mm_min_width};
 
     /** Max-width for the menu. */
-    --mm-max-width: 440px;
+    --mm-max-width: #{$mm_max_width};
 }
 
 //  The rest of the page
@@ -30,8 +30,11 @@
         bottom: 0;
         left: 0;
         z-index: 9995;
+        width: $mm_width; // IE11 fallback
         width: var(--mm-width);
+        min-width: $mm_min_width; // IE11 fallback
         min-width: var(--mm-min-width);
+        max-width: $mm_max_width; // IE11 fallback
         max-width: var(--mm-max-width);
 
         transition: transform $mm_transition_duration ease;
@@ -80,8 +83,11 @@
     &#{$module}--open {
         top: 0;
         z-index: 9999;
+        width: calc(100% - #{$mm_width}); // IE11 fallback
         width: calc(100% - var(--mm-width));
+        min-width: calc(100% - #{$mm_max_width}); // IE11 fallback
         min-width: calc(100% - var(--mm-max-width));
+        max-width: calc(100% - #{$mm_min_width}); // IE11 fallback
         max-width: calc(100% - var(--mm-min-width));
         opacity: 1;
 

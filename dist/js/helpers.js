@@ -3,7 +3,7 @@
  * @param 	{NodeList|HTMLCollection} list 	The list or collection to convert into an array.
  * @return	{array}							The array.
  */
-export const r = (list) => {
+export var r = function (list) {
     return Array.prototype.slice.call(list);
 };
 /**
@@ -12,6 +12,6 @@ export const r = (list) => {
  * @param 	{HTMLElement}	[context=document]	The context to search in.
  * @return	{HTMLElement[]}						The found list of elements.
  */
-export const $ = (selector, context) => {
+export var $ = function (selector, context) {
     return r((context || document).querySelectorAll(selector));
 };

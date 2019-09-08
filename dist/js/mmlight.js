@@ -5,16 +5,23 @@ import { r, $ } from './helpers';
 /**
  * Class for a lightweight mobile menu.
  */
-export default class MmenuLight {
+var MmenuLight = /** @class */ (function () {
     /**
      * Create a lightweight mobile menu.
      *
      * @param {HTMLElement} menu        HTML element for the menu.
      * @param {object}      [options]   Options for the menu.
      */
-    constructor(menu, options) {
+    function MmenuLight(menu, options) {
+        var _this = this;
         //  Extend options with defaults.
-        this.options = Object.assign(MmenuLight.options, options);
+        this.options = {};
+        Object.keys(MmenuLight.options).forEach(function (key) {
+            _this.options[key] =
+                typeof options[key] != 'undefined'
+                    ? options[key]
+                    : MmenuLight.options[key];
+        });
         //  Store the menu node.
         this.menu = menu;
         if (this.options.theme == 'dark') {
@@ -28,24 +35,26 @@ export default class MmenuLight {
      *
      * @param {string} [mediaQuery='all'] Media queury to match for the menu.
      */
-    enable(mediaQuery = 'all') {
+    MmenuLight.prototype.enable = function (mediaQuery) {
+        var _this = this;
+        if (mediaQuery === void 0) { mediaQuery = 'all'; }
         this.toggler = new MMToggler(mediaQuery);
-        this.toggler.add(() => this.menu.classList.add('mm'), () => this.menu.classList.remove('mm'));
+        this.toggler.add(function () { return _this.menu.classList.add('mm'); }, function () { return _this.menu.classList.remove('mm'); });
         return this.toggler;
-    }
+    };
     /**
      * Disable the menu.
      */
-    disable() {
+    MmenuLight.prototype.disable = function () {
         this.toggler.destroy();
-    }
+    };
     /**
      * Initiate the selected listitem / open the current panel.
      */
-    _openPanel() {
-        let listitems = $('.' + this.options.selected, this.menu);
-        let listitem = listitems[listitems.length - 1];
-        let panel = null;
+    MmenuLight.prototype._openPanel = function () {
+        var listitems = $('.' + this.options.selected, this.menu);
+        var listitem = listitems[listitems.length - 1];
+        var panel = null;
         if (listitem) {
             panel = listitem.closest('ul');
         }
@@ -53,17 +62,17 @@ export default class MmenuLight {
             panel = this.menu.querySelector('ul');
         }
         this.openPanel(panel);
-    }
+    };
     /**
      * Open the given panel.
      *
      * @param {HTMLElement} panel Panel to open.
      */
-    openPanel(panel) {
+    MmenuLight.prototype.openPanel = function (panel) {
         /** Title above the panel to open. */
-        let title = panel.dataset.mmTitle;
+        var title = panel.dataset.mmTitle;
         /** Parent LI for the panel.  */
-        let listitem = panel.parentElement;
+        var listitem = panel.parentElement;
         if (listitem === this.menu) {
             //  Opening the main level UL.
             this.menu.classList.add('mm--main');
@@ -73,7 +82,7 @@ export default class MmenuLight {
             this.menu.classList.remove('mm--main');
             //  Find title from parent LI.
             if (!title) {
-                r(listitem.children).forEach(child => {
+                r(listitem.children).forEach(function (child) {
                     if (child.matches('a, span')) {
                         title = child.textContent;
                     }
@@ -87,32 +96,33 @@ export default class MmenuLight {
         //  Set the title.
         this.menu.dataset.mmTitle = title;
         //  Unset all panels from being opened and parent.
-        $('.mm--open', this.menu).forEach(open => {
+        $('.mm--open', this.menu).forEach(function (open) {
             open.classList.remove('mm--open', 'mm--parent');
         });
         //  Set the current panel as being opened.
         panel.classList.add('mm--open');
         panel.classList.remove('mm--parent');
         //  Set all parent panels as being parent.
-        let parent = panel.parentElement.closest('ul');
+        var parent = panel.parentElement.closest('ul');
         while (parent) {
             parent.classList.add('mm--open', 'mm--parent');
             parent = parent.parentElement.closest('ul');
         }
-    }
+    };
     /**
      * Initialize the click event handlers.
      */
-    _initAnchors() {
+    MmenuLight.prototype._initAnchors = function () {
+        var _this = this;
         /**
          * Clicking an A in the menu: prevent bubbling up to the LI, UL or menu.
          *
          * @param   {MouseEvent}    evnt    The event.
          * @return  {boolean}       handled Whether or not the event was handled.
          */
-        const clickAnchor = (evnt) => {
+        var clickAnchor = function (evnt) {
             /** The clicked element */
-            const target = evnt.target;
+            var target = evnt.target;
             if (target.matches('a')) {
                 evnt.stopImmediatePropagation();
                 return true;
@@ -125,11 +135,11 @@ export default class MmenuLight {
          * @param   {MouseEvent}    evnt    The event.
          * @return  {boolean}               Whether or not the event was handled.
          */
-        const openSubmenu = (evnt) => {
+        var openSubmenu = function (evnt) {
             /** The clicked element */
-            const target = evnt.target;
+            var target = evnt.target;
             /** Parent listitem for the submenu.  */
-            let listitem;
+            var listitem;
             //  Find the parent listitem.
             if (target.closest('span')) {
                 listitem = target.parentElement;
@@ -141,9 +151,9 @@ export default class MmenuLight {
                 listitem = false;
             }
             if (listitem) {
-                r(listitem.children).forEach(panel => {
+                r(listitem.children).forEach(function (panel) {
                     if (panel.matches('ul')) {
-                        this.openPanel(panel);
+                        _this.openPanel(panel);
                     }
                 });
                 evnt.stopImmediatePropagation();
@@ -157,16 +167,16 @@ export default class MmenuLight {
          * @param   {MouseEvent}    evnt    The event.
          * @return  {boolean}               Whether or not the event was handled.
          */
-        const closeSubmenu = (evnt) => {
+        var closeSubmenu = function (evnt) {
             /** The clicked element */
-            const target = evnt.target;
+            var target = evnt.target;
             if (target.matches('.mm')) {
-                let panels = $('.mm--open', target);
-                let panel = panels[panels.length - 1];
+                var panels = $('.mm--open', target);
+                var panel = panels[panels.length - 1];
                 if (panel) {
-                    let parent = panel.parentElement.closest('ul');
-                    if (parent) {
-                        this.openPanel(parent);
+                    var parent_1 = panel.parentElement.closest('ul');
+                    if (parent_1) {
+                        _this.openPanel(parent_1);
                     }
                 }
                 evnt.stopImmediatePropagation();
@@ -174,21 +184,23 @@ export default class MmenuLight {
             }
             return false;
         };
-        this.menu.addEventListener('click', evnt => {
+        this.menu.addEventListener('click', function (evnt) {
             //  Don't proceed if the menu isn't enabled at the moment.
-            if (!this.menu.matches('.mm')) {
+            if (!_this.menu.matches('.mm')) {
                 return;
             }
-            let handled = false;
+            var handled = false;
             handled = handled || clickAnchor(evnt);
             handled = handled || openSubmenu(evnt);
             handled = handled || closeSubmenu(evnt);
         });
-    }
-}
-/**	Plugin version. */
-MmenuLight.version = version;
-/**	Default options for menus. */
-MmenuLight.options = options.core;
-/**	Default off-canvas options for menus. */
-MmenuLight.optionsOffcanvas = options.offcanvas;
+    };
+    /**	Plugin version. */
+    MmenuLight.version = version;
+    /**	Default options for menus. */
+    MmenuLight.options = options.core;
+    /**	Default off-canvas options for menus. */
+    MmenuLight.optionsOffcanvas = options.offcanvas;
+    return MmenuLight;
+}());
+export default MmenuLight;

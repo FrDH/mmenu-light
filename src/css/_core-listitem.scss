@@ -1,0 +1,39 @@
+#{$module} {
+    li {
+        @extend %mm-reset;
+
+        position: relative;
+        background: inherit;
+        cursor: pointer;
+
+        //  The arrow.
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: $mm_item_height / 2; // IE11 fallback
+            top: calc(var(--mm-item-height) / 2);
+            right: $mm_item_height / 2; // IE11 fallback
+            right: calc(var(--mm-item-height) / 2);
+            z-index: 0;
+
+            width: $mm_arrow_size;
+            height: $mm_arrow_size;
+            border-top: $mm_arrow_weight solid;
+            border-right: $mm_arrow_weight solid;
+            transform: rotate(45deg) translate(0, -50%);
+            opacity: $mm_arrow_opac;
+        }
+
+        //  The border.
+        &:after {
+            content: '';
+            display: block;
+            margin-left: $mm_item_indent; // IE11 fallback
+            margin-left: var(--mm-item-indent);
+
+            border-top: 1px solid;
+            opacity: $mm_border_opac;
+        }
+    }
+}

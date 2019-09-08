@@ -1,15 +1,16 @@
 /**
  * Class for a match media toggler.
  */
-export default class MMToggler {
+var MMToggler = /** @class */ (function () {
     /**
      * Create the match media.
      *
      * @param {string} mediaquery Media query to use.
      */
-    constructor(mediaquery) {
-        this.listener = (evnt) => {
-            (evnt.matches ? this.matchFns : this.unmatchFns).forEach(listener => {
+    function MMToggler(mediaquery) {
+        var _this = this;
+        this.listener = function (evnt) {
+            (evnt.matches ? _this.matchFns : _this.unmatchFns).forEach(function (listener) {
                 listener();
             });
         };
@@ -25,14 +26,14 @@ export default class MMToggler {
      *
      * @param {Function} listener
      */
-    destroy() {
+    MMToggler.prototype.destroy = function () {
         this.toggler.removeListener(this.listener);
-        this.unmatchFns.forEach(listener => {
+        this.unmatchFns.forEach(function (listener) {
             listener();
         });
         this.matchFns = [];
         this.unmatchFns = [];
-    }
+    };
     /**
      * Add a function to the list,
      * also fires the added function.
@@ -40,9 +41,11 @@ export default class MMToggler {
      * @param {Function} match      Function to fire when the media query matches.
      * @param {Function} unmatch    Function to fire when the media query does not match.
      */
-    add(match, unmatch) {
+    MMToggler.prototype.add = function (match, unmatch) {
         this.matchFns.push(match);
         this.unmatchFns.push(unmatch);
         (this.toggler.matches ? match : unmatch)();
-    }
-}
+    };
+    return MMToggler;
+}());
+export default MMToggler;

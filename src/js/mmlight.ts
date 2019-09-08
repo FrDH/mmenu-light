@@ -45,7 +45,13 @@ export default class MmenuLight {
      */
     constructor(menu: HTMLElement, options?: mmOptions) {
         //  Extend options with defaults.
-        this.options = Object.assign(MmenuLight.options, options);
+        this.options = {};
+        Object.keys(MmenuLight.options).forEach(key => {
+            this.options[key] =
+                typeof options[key] != 'undefined'
+                    ? options[key]
+                    : MmenuLight.options[key];
+        });
 
         //  Store the menu node.
         this.menu = menu;

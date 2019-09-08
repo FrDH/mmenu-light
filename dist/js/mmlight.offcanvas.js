@@ -1,22 +1,23 @@
 import MmenuLight from './mmlight';
 import * as support from './_support';
-const _initAnchors = function () {
+var _initAnchors = function () {
+    var _this = this;
     /**
      * Click outside the menu: close the menu.
      *
      * @param   {MouseEvent}    evnt    The event.
      * @return  {boolean}               Whether or not the event was handled.
      */
-    const closeMenu = (evnt) => {
+    var closeMenu = function (evnt) {
         //  Don't proceed if the menu isn't enabled at the moment.
-        if (!this.menu.matches('.mm')) {
+        if (!_this.menu.matches('.mm')) {
             return false;
         }
         //  Don't proceed if the menu isn't opened at the moment.
-        if (!this.menu.matches('.mm--open')) {
+        if (!_this.menu.matches('.mm--open')) {
             return false;
         }
-        this.close();
+        _this.close();
         evnt.preventDefault();
         evnt.stopImmediatePropagation();
         return true;
@@ -52,16 +53,23 @@ MmenuLight.prototype.close = function () {
 /**
  * Make the menu off-canvas.
  *
- * @param {object} [options] Off-canvas options for the menu.
+ * @param {object} [opts] Off-canvas options for the menu.
  */
-export default function (options) {
+export default function (opts) {
+    var _this = this;
+    var options = {};
     //  Extend options with defaults.
-    options = Object.assign(MmenuLight.optionsOffcanvas, options);
+    Object.keys(MmenuLight.optionsOffcanvas).forEach(function (key) {
+        options[key] =
+            typeof opts[key] != 'undefined'
+                ? opts[key]
+                : MmenuLight.optionsOffcanvas[key];
+    });
     //  Add off-canvas styles and behavior.
     this.menu.classList.add('mm--offcanvas');
     //  Close menu when disabled.
-    this.toggler.add(() => { }, () => {
-        this.close();
+    this.toggler.add(function () { }, function () {
+        _this.close();
     });
     //  Position: right
     if (options.position == 'right') {
@@ -70,17 +78,17 @@ export default function (options) {
     //  Move the menu to the <body>.
     if (options.move) {
         /** Original position in the DOM for the menu. */
-        let orgPosition;
-        this.toggler.add(() => {
+        var orgPosition_1;
+        this.toggler.add(function () {
             //  Store original menu position.
-            orgPosition = document.createComment('original menu location');
-            this.menu.after(orgPosition);
+            orgPosition_1 = document.createComment('original menu location');
+            _this.menu.after(orgPosition_1);
             //  Move the menu to the <body>.
-            document.body.append(this.menu);
-        }, () => {
-            if (orgPosition) {
+            document.body.append(_this.menu);
+        }, function () {
+            if (orgPosition_1) {
                 //  Move the menu back to where it came from.
-                orgPosition.replaceWith(this.menu);
+                orgPosition_1.replaceWith(_this.menu);
             }
         });
     }
@@ -98,10 +106,10 @@ export default function (options) {
         if (options.blockPage != 'modal') {
             _initAnchors.call(this);
         }
-        this.toggler.add(() => {
-            this.blocker.classList.remove('mm-hidden');
-        }, () => {
-            this.blocker.classList.add('mm-hidden');
+        this.toggler.add(function () {
+            _this.blocker.classList.remove('mm-hidden');
+        }, function () {
+            _this.blocker.classList.add('mm-hidden');
         });
     }
 }

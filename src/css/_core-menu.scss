@@ -1,0 +1,18 @@
+#{$module} {
+    @extend %mm-reset;
+
+    //  Prevent the entire menu from highlighting when clicking the navbar.
+    -webkit-tap-highlight-color: transparent;
+    -webkit-overflow-scrolling: touch;
+
+    overflow: hidden;
+    clip-path: inset(0 0 0 0);
+
+    color: #444;
+    background: #f3f3f3;
+    line-height: $mm_line_height; // IE11 fallback
+    line-height: var(--mm-line-height);
+
+    //  This creates a new viewport from the menu so the panels can be fixed.
+    transform: translateX(0px);
+}
