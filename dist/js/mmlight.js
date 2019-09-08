@@ -14,6 +14,7 @@ var MmenuLight = /** @class */ (function () {
      */
     function MmenuLight(menu, options) {
         var _this = this;
+        if (options === void 0) { options = {}; }
         //  Extend options with defaults.
         this.options = {};
         Object.keys(MmenuLight.options).forEach(function (key) {

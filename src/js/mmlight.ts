@@ -43,7 +43,7 @@ export default class MmenuLight {
      * @param {HTMLElement} menu        HTML element for the menu.
      * @param {object}      [options]   Options for the menu.
      */
-    constructor(menu: HTMLElement, options?: mmOptions) {
+    constructor(menu: HTMLElement, options: mmOptions = {}) {
         //  Extend options with defaults.
         this.options = {};
         Object.keys(MmenuLight.options).forEach(key => {
