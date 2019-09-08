@@ -57,6 +57,7 @@ MmenuLight.prototype.close = function () {
  */
 export default function (opts) {
     var _this = this;
+    if (opts === void 0) { opts = {}; }
     var options = {};
     //  Extend options with defaults.
     Object.keys(MmenuLight.optionsOffcanvas).forEach(function (key) {

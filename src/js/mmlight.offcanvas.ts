@@ -70,7 +70,7 @@ MmenuLight.prototype.close = function(this: MmenuLight) {
  *
  * @param {object} [opts] Off-canvas options for the menu.
  */
-export default function(this: MmenuLight, opts?: mmOptionsOffcanvas) {
+export default function(this: MmenuLight, opts: mmOptionsOffcanvas = {}) {
     var options: mmOptionsOffcanvas = {};
 
     //  Extend options with defaults.
