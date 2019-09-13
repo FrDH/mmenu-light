@@ -1,6 +1,7 @@
 export const core: mmOptions = {
     title: 'Menu',
     theme: 'light',
+    slidingSubmenus: true,
     selected: 'Selected'
 };
 

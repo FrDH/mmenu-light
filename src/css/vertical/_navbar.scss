@@ -1,0 +1,10 @@
+#{$module} {
+    &#{$module}--vertical {
+        //  Remove back button and title.
+        &:before,
+        &:after {
+            content: none;
+            display: none;
+        }
+    }
+}

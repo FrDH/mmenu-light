@@ -6,6 +6,8 @@ interface mmOptions {
     /** Color scheme to use (light or dark). */
     theme?: 'light' | 'dark';
 
+    slidingSubmenus?: boolean;
+
     /** Classname for the selected <li>. */
     selected?: string;
 }

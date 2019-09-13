@@ -1,0 +1,34 @@
+#{$module} {
+    &#{$module}--vertical {
+        //  Enable scrolling.
+        overflow-y: auto;
+
+        ul {
+            //  Undo the fix for weird iOS Safari issue.
+            width: unset;
+            padding-right: 0;
+            //  /Fix
+
+            //  Undo sliding submenus.
+            position: static;
+
+            //  Submenus
+            ul {
+                display: none;
+                margin-left: $mm_item_indent; // IE11 fallback
+                margin-left: var(--mm-item-indent);
+
+                //  Because padding-bottom doesn't work if it is scrollable.
+                &:after {
+                    height: $mm_item_height / 2; // IE11 fallback
+                    height: calc(var(--mm-item-height) / 2);
+                }
+            }
+
+            //  Show opened submenus.
+            &#{$module}--open {
+                display: block;
+            }
+        }
+    }
+}

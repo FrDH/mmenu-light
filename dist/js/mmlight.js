@@ -1,6 +1,7 @@
 import version from '../_version';
 import MMToggler from './matchmedia';
 import * as options from './_options';
+import * as support from './_support';
 import { r, $ } from './helpers';
 /**
  * Class for a lightweight mobile menu.
@@ -23,10 +24,16 @@ var MmenuLight = /** @class */ (function () {
                     ? options[key]
                     : MmenuLight.options[key];
         });
+        if (support.IE11) {
+            this.options.slidingSubmenus = false;
+        }
         //  Store the menu node.
         this.menu = menu;
         if (this.options.theme == 'dark') {
             this.menu.classList.add('mm--dark');
+        }
+        if (!this.options.slidingSubmenus) {
+            this.menu.classList.add('mm--vertical');
         }
         this._openPanel();
         this._initAnchors();
@@ -111,6 +118,24 @@ var MmenuLight = /** @class */ (function () {
         }
     };
     /**
+     * Open or close the given panel.
+     *
+     * @param {HTMLElement} panel Panel to open or close.
+     */
+    MmenuLight.prototype.togglePanel = function (panel) {
+        if (this.options.slidingSubmenus) {
+            this.openPanel(panel);
+        }
+        else {
+            var fn = 'add';
+            if (panel.matches('.mm--open')) {
+                fn = 'remove';
+            }
+            panel.classList[fn]('mm--open');
+            panel.parentElement.classList[fn]('mm--open');
+        }
+    };
+    /**
      * Initialize the click event handlers.
      */
     MmenuLight.prototype._initAnchors = function () {
@@ -154,7 +179,7 @@ var MmenuLight = /** @class */ (function () {
             if (listitem) {
                 r(listitem.children).forEach(function (panel) {
                     if (panel.matches('ul')) {
-                        _this.openPanel(panel);
+                        _this.togglePanel(panel);
                     }
                 });
                 evnt.stopImmediatePropagation();

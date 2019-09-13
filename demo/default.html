@@ -44,16 +44,17 @@
 
 		<script src="../dist/mmenu-light.js"></script>
 		<script>
-			const menu = new MmenuLight( document.querySelector( '#menu' ), {
+			var menu = new MmenuLight( document.querySelector( '#menu' ), {
 				// title: 'Menu',
 				// theme: 'light',
+				slidingSubmenus: false,
 				// selected: 'Selected'
 			});
 			menu.enable( 'all' ); // '(max-width: 900px)'
 			menu.offcanvas({
-				// position: 'left',// [| 'right']
-				// move: true,// [| false]
-				// blockPage: true,// [| false | 'modal']
+				// position: 'left',// 'right'
+				// move: true,// false
+				// blockPage: true,// false / 'modal'
 			});
 
 			//	Open the menu.

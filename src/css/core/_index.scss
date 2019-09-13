@@ -1,6 +1,6 @@
 $module: '.mm';
 
-@import 'variables';
+@import '../variables';
 
 %mm-reset {
     display: block;
@@ -26,8 +26,8 @@ $module: '.mm';
     display: none !important;
 }
 
-@import 'core-menu';
-@import 'core-navbar';
-@import 'core-listview';
-@import 'core-listitem';
-@import 'core-anchor';
+@import 'menu';
+@import 'navbar';
+@import 'listview';
+@import 'listitem';
+@import 'anchor';

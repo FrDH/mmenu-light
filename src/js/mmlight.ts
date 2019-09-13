@@ -1,6 +1,7 @@
 import version from '../_version';
 import MMToggler from './matchmedia';
 import * as options from './_options';
+import * as support from './_support';
 import { r, $ } from './helpers';
 
 /**
@@ -53,11 +54,19 @@ export default class MmenuLight {
                     : MmenuLight.options[key];
         });
 
+        if (support.IE11) {
+            this.options.slidingSubmenus = false;
+        }
+
         //  Store the menu node.
         this.menu = menu;
 
         if (this.options.theme == 'dark') {
             this.menu.classList.add('mm--dark');
+        }
+
+        if (!this.options.slidingSubmenus) {
+            this.menu.classList.add('mm--vertical');
         }
 
         this._openPanel();
@@ -158,6 +167,24 @@ export default class MmenuLight {
     }
 
     /**
+     * Open or close the given panel.
+     *
+     * @param {HTMLElement} panel Panel to open or close.
+     */
+    togglePanel(panel) {
+        if (this.options.slidingSubmenus) {
+            this.openPanel(panel);
+        } else {
+            let fn = 'add';
+            if (panel.matches('.mm--open')) {
+                fn = 'remove';
+            }
+            panel.classList[fn]('mm--open');
+            panel.parentElement.classList[fn]('mm--open');
+        }
+    }
+
+    /**
      * Initialize the click event handlers.
      */
     _initAnchors() {
@@ -203,7 +230,7 @@ export default class MmenuLight {
             if (listitem) {
                 r(listitem.children).forEach(panel => {
                     if (panel.matches('ul')) {
-                        this.openPanel(panel);
+                        this.togglePanel(panel);
                     }
                 });
 

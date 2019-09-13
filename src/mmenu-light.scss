@@ -9,9 +9,9 @@
  */
 
 //	Core
-@import 'css/_core';
+@import 'css/core/index';
 
 //  Add-ons
-@import 'css/_theme.dark';
-@import 'css/_offcanvas';
-@import 'css/_offcanvas.right';
+@import 'css/theme/dark';
+@import 'css/vertical/index';
+@import 'css/offcanvas/index';
