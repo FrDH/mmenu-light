@@ -9,10 +9,10 @@
  */
 
 //	Core
-import MmenuLight from '../dist/js/mmlight';
+import MmenuLight from '../bin/js/mmlight';
 
 //	Add-ons
-import offcanvas from '../dist/js/mmlight.offcanvas';
+import offcanvas from '../bin/js/mmlight.offcanvas';
 
 MmenuLight.prototype.offcanvas = offcanvas;
 

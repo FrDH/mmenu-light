@@ -5,18 +5,19 @@
 
         ul {
             //  Undo the fix for weird iOS Safari issue.
-            width: unset;
+            width: 100%;
             padding-right: 0;
-            //  /Fix
+            //  /Undo fix.
 
             //  Undo sliding submenus.
+            //  Also undoes the top, left, right, bottom and z-index properties :)
             position: static;
 
             //  Submenus
             ul {
                 display: none;
-                margin-left: $mm_item_indent; // IE11 fallback
-                margin-left: var(--mm-item-indent);
+                padding-left: $mm_item_indent; // IE11 fallback
+                padding-left: var(--mm-item-indent);
 
                 //  Because padding-bottom doesn't work if it is scrollable.
                 &:after {

@@ -23,6 +23,7 @@ const concat = require('gulp-concat');
 //  Dirs
 const inputDir = 'src';
 const outputDir = 'dist';
+const binDir = 'bin';
 
 /** CSS task */
 const css = () => {
@@ -45,7 +46,7 @@ const jsTtranspile = () => {
                 module: 'es6'
             })
         )
-        .pipe(dest(outputDir));
+        .pipe(dest(binDir));
 };
 
 /** JS Pack task */
@@ -77,7 +78,8 @@ exports.polyfills = cb => {
         inputDir + '/_polyfills/matches.js',
         inputDir + '/_polyfills/closest.js',
         inputDir + '/_polyfills/after.js',
-        inputDir + '/_polyfills/append.js'
+        inputDir + '/_polyfills/append.js',
+        inputDir + '/_polyfills/event.js'
     ])
         .pipe(concat('mmenu-light.polyfills.js'))
         .pipe(dest(outputDir));
