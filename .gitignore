@@ -1,16 +1,13 @@
-# Ignore Mac system files.
+# Ignore system files.
 ._*
 .DS_Store
-
-# Ignore sass-cache files.
+.vscode
 *.sass-cache*
 *.scssc
 
-# Ignore node modules
+# Ignore node modules.
 node_modules
 
-# Ignore temporary transpiled files
+# Ignore files and directories.
 bin
-
-# Ignore TODO
 TODO.txt
