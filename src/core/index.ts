@@ -1,0 +1,101 @@
+import MmToggler from '../modules/match-media-toggler/index';
+import MmSlidingPanelsNavigation from '../modules/sliding-panels-navigation/index';
+import MmOffCanvasDrawer from '../modules/offcanvas-drawer/index';
+
+/**
+ * Class for a lightweight mobile menu.
+ */
+export default class MmenuLight {
+    /** HTML element for the menu. */
+    menu: HTMLElement;
+
+    /** The Toggler instance. */
+    toggler: MmToggler;
+
+    /** The Navigation instance. */
+    navigator: MmSlidingPanelsNavigation;
+
+    /** The Off-canvas instance. */
+    drawer: MmOffCanvasDrawer;
+
+    /**
+     * Create a lightweight mobile menu.
+     *
+     * @param {HTMLElement} menu                HTML element for the menu.
+     * @param {string}      [mediaQuery='all']  Media queury to match for the menu.
+     */
+    constructor(menu: HTMLElement, mediaQuery: string = 'all') {
+        //  Store the menu node.
+        this.menu = menu;
+
+        //  Create the toggler instance.
+        this.toggler = new MmToggler(mediaQuery);
+    }
+
+    /**
+     * Add navigation for the menu.
+     *
+     * @param {object} options Options for the navigation.
+     */
+    navigation(options: mmNavigationOptions) {
+        if (!this.navigator) {
+            const {
+                title = 'Menu',
+                selectedClass = 'Selected',
+                slidingSubmenus = true,
+                theme = 'light'
+            } = options;
+
+            this.navigator = new MmSlidingPanelsNavigation(
+                this.menu,
+                title,
+                selectedClass,
+                slidingSubmenus,
+                theme
+            );
+        }
+
+        const prefix = this.navigator.prefix;
+
+        //  En-/disable
+        this.toggler.add(
+            () => this.menu.classList.add(prefix),
+            () => this.menu.classList.remove(prefix)
+        );
+
+        return this.navigator;
+    }
+
+    /**
+     * Add off-canvas behavior to the menu.
+     *
+     * @param {object} options Options for the off-canvas drawer.
+     */
+    offcanvas(options: mmOffcanvasOptions) {
+        if (!this.drawer) {
+            const { position = 'left' } = options;
+            this.drawer = new MmOffCanvasDrawer(null, position);
+        }
+
+        /** Original location in the DOM for the menu. */
+        let orgLocation = document.createComment('original menu location');
+        this.menu.after(orgLocation);
+
+        //  En-/disable
+        this.toggler.add(
+            () => {
+                // Move the menu to the drawer.
+                this.drawer.content.append(this.menu);
+            },
+            () => {
+                // Close the drawer.
+                this.drawer.close();
+
+                // Move the menu to the original position.
+                orgLocation.after(this.menu);
+            }
+        );
+
+        return this.drawer;
+    }
+}

@@ -6,8 +6,11 @@
 *.sass-cache*
 *.scssc
 
-# Ignore Gulp modules
+# Ignore node modules
 node_modules
+
+# Ignore temporary transpiled files
+bin
 
 # Ignore TODO
 TODO.txt

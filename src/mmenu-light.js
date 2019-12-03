@@ -1,4 +1,5 @@
 /*!
+ * Mmenu Light v3.0.0
  * mmenujs.com/mmenu-light
  *
  * Copyright (c) Fred Heusschen
@@ -8,13 +9,8 @@
  * http://creativecommons.org/licenses/by/4.0/
  */
 
-//	Core
-import MmenuLight from '../bin/js/mmlight';
-
-//	Add-ons
-import offcanvas from '../bin/js/mmlight.offcanvas';
-
-MmenuLight.prototype.offcanvas = offcanvas;
+//	The module
+import MmenuLight from '../bin/core/index';
 
 //  Export module
 export default MmenuLight;

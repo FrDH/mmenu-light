@@ -30,7 +30,7 @@ a, a:link, a:active, a:visited, a:hover {
 	text-decoration: underline;
 }
 
-nav:not(.mm) {
+.header nav {
 	display: none;
 }
 

@@ -1,6 +1,6 @@
 {
 	"name": "mmenu-light",
-	"version": "2.3.1",
+	"version": "3.0.0",
 	"main": "dist/mmenu-light.js",
 	"module": "src/mmenu-light.js",
 	"author": "Fred Heusschen <info@frebsite.nl>",
@@ -20,6 +20,7 @@
 		"mobile",
 		"navigation",
 		"off-canvas",
+		"drawer",
 		"curtain",
 		"panels",
 		"submenu"
@@ -34,7 +35,7 @@
 		"gulp-concat": "^2.6.1",
 		"gulp-sass": "^4.0.2",
 		"gulp-typescript": "^5.0.1",
-		"typescript": "^3.4.5",
+		"typescript": "^3.7.2",
 		"webpack-stream": "^5.2.1"
 	}
 }

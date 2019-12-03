@@ -1,7 +1,7 @@
 /**
  * Class for a match media toggler.
  */
-export default class MMToggler {
+export default class MmToggler {
     /** List of functions to fire when the media query matches. */
     matchFns: Function[];
 
@@ -30,22 +30,6 @@ export default class MMToggler {
 
         this.toggler = window.matchMedia(mediaquery);
         this.toggler.addListener(this.listener as any);
-        this.matchFns = [];
-        this.unmatchFns = [];
-    }
-
-    /**
-     * Destroy the match media,
-     * also fires the added functions for when the media query does not match
-     * and removes the functions from the lists.
-     *
-     * @param {Function} listener
-     */
-    destroy() {
-        this.toggler.removeListener(this.listener as any);
-        this.unmatchFns.forEach(listener => {
-            listener();
-        });
         this.matchFns = [];
         this.unmatchFns = [];
     }

@@ -1,0 +1,85 @@
+#{$prefix} {
+    //  Navbar
+    &#{$prefix}--navbar {
+        cursor: pointer;
+
+        //  Back button.
+        &:before {
+            content: '';
+            display: block;
+            position: absolute;
+            top: $mmspn_item_height / 2; // IE11 fallback
+            top: calc(var(--mm-spn-item-height) / 2);
+            left: $mmspn_item_indent; // IE11 fallback
+            left: var(--mm-spn-item-indent);
+            width: $mmspn_arrow_size;
+            height: $mmspn_arrow_size;
+            margin-top: 2px;
+
+            border-top: $mmspn_arrow_weight solid;
+            border-left: $mmspn_arrow_weight solid;
+            transform: rotate(-45deg) translate(50%, -50%);
+            opacity: $mmspn_navbar_opac;
+        }
+
+        //  No back button when the main listview is opened.
+        &#{$prefix}--main {
+            cursor: default;
+
+            &:before {
+                content: none;
+                display: none;
+            }
+        }
+
+        //  Title.
+        &:after {
+            content: attr(data-mm-spn-title);
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: $mmspn_item_height; // IE11 fallback
+            height: var(--mm-spn-item-height);
+            padding: 0 $mmspn_item_indent * 2; // IE11 fallback
+            padding: 0 calc(var(--mm-spn-item-indent) * 2);
+            line-height: $mmspn_item_height; // IE11 fallback
+            line-height: var(--mm-spn-item-height);
+            opacity: $mmspn_navbar_opac;
+            text-align: center;
+
+            //  Ellipsis.
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        //  Title when the main listview is opened.
+        &#{$prefix}--main:after {
+            padding-left: $mmspn_item_indent; // IE11 fallback
+            padding-left: var(--mm-spn-item-indent);
+        }
+    }
+
+    //  Listviews
+    &#{$prefix}--navbar {
+        //  All listviews.
+        ul {
+            top: $mmspn_item_height + 1; // IE11 fallback
+            top: calc(var(--mm-spn-item-height) + 1px);
+
+            //  The border.
+            &:before {
+                content: '';
+                display: block;
+                position: fixed;
+                top: inherit;
+                z-index: 2;
+                width: 100%;
+                border-top: 1px solid currentColor;
+                opacity: $mmspn_border_opac;
+            }
+        }
+    }
+}

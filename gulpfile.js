@@ -74,12 +74,12 @@ exports.polyfills = cb => {
     //  Some polyfills might rely on others,
     //      therefor we include 'em in a fixed order.
     return src([
-        inputDir + '/_polyfills/foreach.js',
-        inputDir + '/_polyfills/matches.js',
-        inputDir + '/_polyfills/closest.js',
-        inputDir + '/_polyfills/after.js',
-        inputDir + '/_polyfills/append.js',
-        inputDir + '/_polyfills/event.js'
+        inputDir + '/polyfills/foreach.js',
+        inputDir + '/polyfills/matches.js',
+        inputDir + '/polyfills/closest.js',
+        inputDir + '/polyfills/after.js',
+        inputDir + '/polyfills/append.js',
+        inputDir + '/polyfills/event.js'
     ])
         .pipe(concat('mmenu-light.polyfills.js'))
         .pipe(dest(outputDir));

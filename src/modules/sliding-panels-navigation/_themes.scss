@@ -1,0 +1,13 @@
+#{$prefix} {
+    //  Light theme
+    &#{$prefix}--light {
+        color: #444;
+        background: #f3f3f3;
+    }
+
+    //  Dark theme
+    &#{$prefix}--dark {
+        color: #ddd;
+        background: #333;
+    }
+}

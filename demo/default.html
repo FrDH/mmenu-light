@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="author" content="www.frebsite.nl" />
-		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+		<meta name="viewport" content="width=device-width minimum-scale=1.0 maximum-scale=1.0 user-scalable=no" />
 
 		<title>mmenu light demo</title>
 
@@ -44,27 +44,27 @@
 
 		<script src="../dist/mmenu-light.js"></script>
 		<script>
-			var menu = new MmenuLight( document.querySelector( '#menu' ), {
-				// title: 'Menu',
-				// theme: 'light',// 'dark'
-				// slidingSubmenus: true,// false
-				// selected: 'Selected'
+			var menu = new MmenuLight(
+				document.querySelector( '#menu' ),
+				'all'
+			);
+
+			var navigator = menu.navigation({
+				// selectedClass: 'Selected',
+				// slidingSubmenus: true,
+				// theme: 'dark',
+				// title: 'Menu'
 			});
-			menu.enable( 'all' ); // '(max-width: 900px)'
-			menu.offcanvas({
-				// position: 'left',// 'right'
-				// move: true,// false
-				// blockPage: true,// false / 'modal'
+
+			var drawer = menu.offcanvas({
+				// position: 'left'
 			});
 
 			//	Open the menu.
 			document.querySelector( 'a[href="#menu"]' )
-				.addEventListener( 'click', ( evnt ) => {
-					menu.open();
-
-					//	Don't forget to "preventDefault" and to "stopPropagation".
+				.addEventListener( 'click', evnt => {
 					evnt.preventDefault();
-					evnt.stopPropagation();
+					drawer.open();
 				});
 
 		</script>
