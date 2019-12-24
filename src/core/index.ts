@@ -38,7 +38,10 @@ export default class MmenuLight {
      * @param {object} options Options for the navigation.
      */
     navigation(options: mmNavigationOptions) {
+        //  Only needs to be done ones.
         if (!this.navigator) {
+            options = options || {};
+
             const {
                 title = 'Menu',
                 selectedClass = 'Selected',
@@ -53,15 +56,13 @@ export default class MmenuLight {
                 slidingSubmenus,
                 theme
             );
+
+            //  En-/disable
+            this.toggler.add(
+                () => this.menu.classList.add(this.navigator.prefix),
+                () => this.menu.classList.remove(this.navigator.prefix)
+            );
         }
-
-        const prefix = this.navigator.prefix;
-
-        //  En-/disable
-        this.toggler.add(
-            () => this.menu.classList.add(prefix),
-            () => this.menu.classList.remove(prefix)
-        );
 
         return this.navigator;
     }
@@ -72,29 +73,31 @@ export default class MmenuLight {
      * @param {object} options Options for the off-canvas drawer.
      */
     offcanvas(options: mmOffcanvasOptions) {
+        //  Only needs to be done ones.
         if (!this.drawer) {
+            options = options || {};
             const { position = 'left' } = options;
             this.drawer = new MmOffCanvasDrawer(null, position);
+
+            /** Original location in the DOM for the menu. */
+            let orgLocation = document.createComment('original menu location');
+            this.menu.after(orgLocation);
+
+            //  En-/disable
+            this.toggler.add(
+                () => {
+                    // Move the menu to the drawer.
+                    this.drawer.content.append(this.menu);
+                },
+                () => {
+                    // Close the drawer.
+                    this.drawer.close();
+
+                    // Move the menu to the original position.
+                    orgLocation.after(this.menu);
+                }
+            );
         }
-
-        /** Original location in the DOM for the menu. */
-        let orgLocation = document.createComment('original menu location');
-        this.menu.after(orgLocation);
-
-        //  En-/disable
-        this.toggler.add(
-            () => {
-                // Move the menu to the drawer.
-                this.drawer.content.append(this.menu);
-            },
-            () => {
-                // Close the drawer.
-                this.drawer.close();
-
-                // Move the menu to the original position.
-                orgLocation.after(this.menu);
-            }
-        );
 
         return this.drawer;
     }
