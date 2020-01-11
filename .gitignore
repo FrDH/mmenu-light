@@ -9,5 +9,4 @@
 node_modules
 
 # Ignore files and directories.
-bin
 TODO.txt

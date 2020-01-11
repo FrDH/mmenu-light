@@ -23,7 +23,7 @@ const concat = require('gulp-concat');
 //  Dirs
 const inputDir = 'src';
 const outputDir = 'dist';
-const binDir = 'bin';
+const esmDir = 'esm';
 
 /** CSS task */
 const css = () => {
@@ -46,7 +46,7 @@ const jsTtranspile = () => {
                 module: 'es6'
             })
         )
-        .pipe(dest(binDir));
+        .pipe(dest(esmDir));
 };
 
 /** JS Pack task */

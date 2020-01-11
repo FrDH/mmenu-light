@@ -1,5 +1,5 @@
 /*!
- * Mmenu Light v3.0.1
+ * Mmenu Light v3.0.2
  * mmenujs.com/mmenu-light
  *
  * Copyright (c) Fred Heusschen
@@ -10,7 +10,7 @@
  */
 
 //	The module
-import MmenuLight from '../bin/core/index';
+import MmenuLight from '../esm/core/index';
 
 //  Export module
 export default MmenuLight;
