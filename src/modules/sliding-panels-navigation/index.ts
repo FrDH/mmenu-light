@@ -18,6 +18,9 @@ export default class MmSlidingPanelsNavigation {
     /** The title for the menu. */
     title: string;
 
+    /** Whether or not to use sliding submenus. */
+    slidingSubmenus: boolean;
+
     /** The class for selected menu items. */
     selectedClass: string;
 
@@ -39,6 +42,7 @@ export default class MmSlidingPanelsNavigation {
     ) {
         this.node = node;
         this.title = title;
+        this.slidingSubmenus = slidingSubmenus;
         this.selectedClass = selectedClass;
 
         //  Add classname.
@@ -46,12 +50,12 @@ export default class MmSlidingPanelsNavigation {
 
         //  Sliding submenus not supported in IE11.
         if (support.IE11) {
-            slidingSubmenus = false;
+            this.slidingSubmenus = false;
         }
 
         this.node.classList.add(`${prefix}--${theme}`);
         this.node.classList.add(
-            `${prefix}--${slidingSubmenus ? 'navbar' : 'vertical'}`
+            `${prefix}--${this.slidingSubmenus ? 'navbar' : 'vertical'}`
         );
 
         this._setSelectedl();
@@ -64,55 +68,79 @@ export default class MmSlidingPanelsNavigation {
      * @param {HTMLElement} panel Panel to open.
      */
     openPanel(panel: HTMLElement) {
-        /** Title above the panel to open. */
-        let title = panel.dataset.mmSpnTitle;
-
         /** Parent LI for the panel.  */
         let listitem = panel.parentElement;
 
-        //  Opening the main level UL.
-        if (listitem === this.node) {
-            this.node.classList.add(`${prefix}--main`);
-        }
+        //  Sliding submenus
+        if (this.slidingSubmenus) {
+            /** Title above the panel to open. */
+            let title = panel.dataset.mmSpnTitle;
 
-        //  Opening a sub level UL.
-        else {
-            this.node.classList.remove(`${prefix}--main`);
+            //  Opening the main level UL.
+            if (listitem === this.node) {
+                this.node.classList.add(`${prefix}--main`);
+            }
 
-            //  Find title from parent LI.
+            //  Opening a sub level UL.
+            else {
+                this.node.classList.remove(`${prefix}--main`);
+
+                //  Find title from parent LI.
+                if (!title) {
+                    r(listitem.children).forEach(child => {
+                        if (child.matches('a, span')) {
+                            title = child.textContent;
+                        }
+                    });
+                }
+            }
+
+            //  Use the default title.
             if (!title) {
-                r(listitem.children).forEach(child => {
-                    if (child.matches('a, span')) {
-                        title = child.textContent;
-                    }
-                });
+                title = this.title;
+            }
+
+            //  Set the title.
+            this.node.dataset.mmSpnTitle = title;
+
+            //  Unset all panels from being opened and parent.
+            $(`.${prefix}--open`, this.node).forEach(open => {
+                open.classList.remove(`${prefix}--open`);
+                open.classList.remove(`${prefix}--parent`);
+            });
+
+            //  Set the current panel as being opened.
+            panel.classList.add(`${prefix}--open`);
+            panel.classList.remove(`${prefix}--parent`);
+
+            //  Set all parent panels as being parent.
+            let parent = panel.parentElement.closest('ul');
+            while (parent) {
+                parent.classList.add(`${prefix}--open`);
+                parent.classList.add(`${prefix}--parent`);
+                parent = parent.parentElement.closest('ul');
             }
         }
 
-        //  Use the default title.
-        if (!title) {
-            title = this.title;
-        }
+        //  Vertical submenus
+        else {
+            /** Whether or not the panel is currently opened. */
+            const isOpened = panel.matches(`.${prefix}--open`);
 
-        //  Set the title.
-        this.node.dataset.mmSpnTitle = title;
+            //  Unset all panels from being opened and parent.
+            $(`.${prefix}--open`, this.node).forEach(open => {
+                open.classList.remove(`${prefix}--open`);
+            });
 
-        //  Unset all panels from being opened and parent.
-        $(`.${prefix}--open`, this.node).forEach(open => {
-            open.classList.remove(`${prefix}--open`);
-            open.classList.remove(`${prefix}--parent`);
-        });
+            //  Toggle the current panel.
+            panel.classList[isOpened ? 'remove' : 'add'](`${prefix}--open`);
 
-        //  Set the current panel as being opened.
-        panel.classList.add(`${prefix}--open`);
-        panel.classList.remove(`${prefix}--parent`);
-
-        //  Set all parent panels as being parent.
-        let parent = panel.parentElement.closest('ul');
-        while (parent) {
-            parent.classList.add(`${prefix}--open`);
-            parent.classList.add(`${prefix}--parent`);
-            parent = parent.parentElement.closest('ul');
+            //  Set all parent panels as being opened.
+            let parent = panel.parentElement.closest('ul');
+            while (parent) {
+                parent.classList.add(`${prefix}--open`);
+                parent = parent.parentElement.closest('ul');
+            }
         }
     }
 
@@ -145,15 +173,11 @@ export default class MmSlidingPanelsNavigation {
         /**
          * Clicking an A in the menu: prevent bubbling up to the LI.
          *
-         * @param   {MouseEvent}    evnt    The event.
+         * @param   {HTMLElement}    target The clicked element.
          * @return  {boolean}       handled Whether or not the event was handled.
          */
-        const clickAnchor = (evnt: MouseEvent): boolean => {
-            /** The clicked element */
-            const target = evnt.target as HTMLElement;
-
+        const clickAnchor = (target: HTMLElement): boolean => {
             if (target.matches('a')) {
-                evnt.stopImmediatePropagation();
                 return true;
             }
             return false;
@@ -162,13 +186,10 @@ export default class MmSlidingPanelsNavigation {
         /**
          * Click a LI or SPAN in the menu: open its submenu (if present).
          *
-         * @param   {MouseEvent}    evnt    The event.
+         * @param   {HTMLElement}    target The clicked element.
          * @return  {boolean}               Whether or not the event was handled.
          */
-        const openSubmenu = (evnt: MouseEvent): boolean => {
-            /** The clicked element */
-            const target = evnt.target as HTMLElement;
-
+        const openSubmenu = (target: HTMLElement): boolean => {
             /** Parent listitem for the submenu.  */
             let listitem;
 
@@ -188,7 +209,6 @@ export default class MmSlidingPanelsNavigation {
                     }
                 });
 
-                evnt.stopImmediatePropagation();
                 return true;
             }
             return false;
@@ -197,13 +217,10 @@ export default class MmSlidingPanelsNavigation {
         /**
          * Click the menu (the navbar): close the last opened submenu.
          *
-         * @param   {MouseEvent}    evnt    The event.
+         * @param   {HTMLElement}    target The clicked element.
          * @return  {boolean}               Whether or not the event was handled.
          */
-        const closeSubmenu = (evnt: MouseEvent): boolean => {
-            /** The clicked element. */
-            const target = evnt.target as HTMLElement;
-
+        const closeSubmenu = (target: HTMLElement): boolean => {
             /** The opened ULs. */
             let panels = $(`.${prefix}--open`, target);
 
@@ -214,18 +231,23 @@ export default class MmSlidingPanelsNavigation {
                 let parent = panel.parentElement.closest('ul');
                 if (parent) {
                     this.openPanel(parent);
-
-                    evnt.stopImmediatePropagation();
                     return true;
                 }
             }
+            return false;
         };
 
         this.node.addEventListener('click', evnt => {
+            let target = evnt.target as HTMLElement;
             let handled = false;
-            handled = handled || clickAnchor(evnt);
-            handled = handled || openSubmenu(evnt);
-            handled = handled || closeSubmenu(evnt);
+
+            handled = handled || clickAnchor(target);
+            handled = handled || openSubmenu(target);
+            handled = handled || closeSubmenu(target);
+
+            if (handled) {
+                evnt.stopImmediatePropagation();
+            }
         });
     }
 }

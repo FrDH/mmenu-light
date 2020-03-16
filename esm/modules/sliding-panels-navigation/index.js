@@ -17,15 +17,16 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
     function MmSlidingPanelsNavigation(node, title, selectedClass, slidingSubmenus, theme) {
         this.node = node;
         this.title = title;
+        this.slidingSubmenus = slidingSubmenus;
         this.selectedClass = selectedClass;
         //  Add classname.
         this.node.classList.add(prefix);
         //  Sliding submenus not supported in IE11.
         if (support.IE11) {
-            slidingSubmenus = false;
+            this.slidingSubmenus = false;
         }
         this.node.classList.add(prefix + "--" + theme);
-        this.node.classList.add(prefix + "--" + (slidingSubmenus ? 'navbar' : 'vertical'));
+        this.node.classList.add(prefix + "--" + (this.slidingSubmenus ? 'navbar' : 'vertical'));
         this._setSelectedl();
         this._initAnchors();
     }
@@ -43,46 +44,66 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
      * @param {HTMLElement} panel Panel to open.
      */
     MmSlidingPanelsNavigation.prototype.openPanel = function (panel) {
-        /** Title above the panel to open. */
-        var title = panel.dataset.mmSpnTitle;
         /** Parent LI for the panel.  */
         var listitem = panel.parentElement;
-        //  Opening the main level UL.
-        if (listitem === this.node) {
-            this.node.classList.add(prefix + "--main");
-        }
-        //  Opening a sub level UL.
-        else {
-            this.node.classList.remove(prefix + "--main");
-            //  Find title from parent LI.
-            if (!title) {
-                r(listitem.children).forEach(function (child) {
-                    if (child.matches('a, span')) {
-                        title = child.textContent;
-                    }
-                });
+        //  Sliding submenus
+        if (this.slidingSubmenus) {
+            /** Title above the panel to open. */
+            var title_1 = panel.dataset.mmSpnTitle;
+            //  Opening the main level UL.
+            if (listitem === this.node) {
+                this.node.classList.add(prefix + "--main");
+            }
+            //  Opening a sub level UL.
+            else {
+                this.node.classList.remove(prefix + "--main");
+                //  Find title from parent LI.
+                if (!title_1) {
+                    r(listitem.children).forEach(function (child) {
+                        if (child.matches('a, span')) {
+                            title_1 = child.textContent;
+                        }
+                    });
+                }
+            }
+            //  Use the default title.
+            if (!title_1) {
+                title_1 = this.title;
+            }
+            //  Set the title.
+            this.node.dataset.mmSpnTitle = title_1;
+            //  Unset all panels from being opened and parent.
+            $("." + prefix + "--open", this.node).forEach(function (open) {
+                open.classList.remove(prefix + "--open");
+                open.classList.remove(prefix + "--parent");
+            });
+            //  Set the current panel as being opened.
+            panel.classList.add(prefix + "--open");
+            panel.classList.remove(prefix + "--parent");
+            //  Set all parent panels as being parent.
+            var parent_1 = panel.parentElement.closest('ul');
+            while (parent_1) {
+                parent_1.classList.add(prefix + "--open");
+                parent_1.classList.add(prefix + "--parent");
+                parent_1 = parent_1.parentElement.closest('ul');
             }
         }
-        //  Use the default title.
-        if (!title) {
-            title = this.title;
-        }
-        //  Set the title.
-        this.node.dataset.mmSpnTitle = title;
-        //  Unset all panels from being opened and parent.
-        $("." + prefix + "--open", this.node).forEach(function (open) {
-            open.classList.remove(prefix + "--open");
-            open.classList.remove(prefix + "--parent");
-        });
-        //  Set the current panel as being opened.
-        panel.classList.add(prefix + "--open");
-        panel.classList.remove(prefix + "--parent");
-        //  Set all parent panels as being parent.
-        var parent = panel.parentElement.closest('ul');
-        while (parent) {
-            parent.classList.add(prefix + "--open");
-            parent.classList.add(prefix + "--parent");
-            parent = parent.parentElement.closest('ul');
+        //  Vertical submenus
+        else {
+            /** Whether or not the panel is currently opened. */
+            var isOpened = panel.matches("." + prefix + "--open");
+            //  Unset all panels from being opened and parent.
+            $("." + prefix + "--open", this.node).forEach(function (open) {
+                open.classList.remove(prefix + "--open");
+            });
+            //  Toggle the current panel.
+            panel.classList[isOpened ? 'remove' : 'add'](prefix + "--open");
+            //  Set all parent panels as being opened.
+            var parent_2 = panel.parentElement.closest('ul');
+            while (parent_2) {
+                parent_2.classList.add(prefix + "--open");
+                parent_2 = parent_2.parentElement.closest('ul');
+            }
         }
     };
     /**
@@ -111,14 +132,11 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
         /**
          * Clicking an A in the menu: prevent bubbling up to the LI.
          *
-         * @param   {MouseEvent}    evnt    The event.
+         * @param   {HTMLElement}    target The clicked element.
          * @return  {boolean}       handled Whether or not the event was handled.
          */
-        var clickAnchor = function (evnt) {
-            /** The clicked element */
-            var target = evnt.target;
+        var clickAnchor = function (target) {
             if (target.matches('a')) {
-                evnt.stopImmediatePropagation();
                 return true;
             }
             return false;
@@ -126,12 +144,10 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
         /**
          * Click a LI or SPAN in the menu: open its submenu (if present).
          *
-         * @param   {MouseEvent}    evnt    The event.
+         * @param   {HTMLElement}    target The clicked element.
          * @return  {boolean}               Whether or not the event was handled.
          */
-        var openSubmenu = function (evnt) {
-            /** The clicked element */
-            var target = evnt.target;
+        var openSubmenu = function (target) {
             /** Parent listitem for the submenu.  */
             var listitem;
             //  Find the parent listitem.
@@ -150,7 +166,6 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
                         _this.openPanel(panel);
                     }
                 });
-                evnt.stopImmediatePropagation();
                 return true;
             }
             return false;
@@ -158,31 +173,33 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
         /**
          * Click the menu (the navbar): close the last opened submenu.
          *
-         * @param   {MouseEvent}    evnt    The event.
+         * @param   {HTMLElement}    target The clicked element.
          * @return  {boolean}               Whether or not the event was handled.
          */
-        var closeSubmenu = function (evnt) {
-            /** The clicked element. */
-            var target = evnt.target;
+        var closeSubmenu = function (target) {
             /** The opened ULs. */
             var panels = $("." + prefix + "--open", target);
             /** The last opened UL. */
             var panel = panels[panels.length - 1];
             if (panel) {
                 /** The second to last opened UL. */
-                var parent_1 = panel.parentElement.closest('ul');
-                if (parent_1) {
-                    _this.openPanel(parent_1);
-                    evnt.stopImmediatePropagation();
+                var parent_3 = panel.parentElement.closest('ul');
+                if (parent_3) {
+                    _this.openPanel(parent_3);
                     return true;
                 }
             }
+            return false;
         };
         this.node.addEventListener('click', function (evnt) {
+            var target = evnt.target;
             var handled = false;
-            handled = handled || clickAnchor(evnt);
-            handled = handled || openSubmenu(evnt);
-            handled = handled || closeSubmenu(evnt);
+            handled = handled || clickAnchor(target);
+            handled = handled || openSubmenu(target);
+            handled = handled || closeSubmenu(target);
+            if (handled) {
+                evnt.stopImmediatePropagation();
+            }
         });
     };
     return MmSlidingPanelsNavigation;
