@@ -46,7 +46,7 @@ export default class MmenuLight {
                 title = 'Menu',
                 selectedClass = 'Selected',
                 slidingSubmenus = true,
-                theme = 'light'
+                theme = 'light',
             } = options;
 
             this.navigator = new MmSlidingPanelsNavigation(

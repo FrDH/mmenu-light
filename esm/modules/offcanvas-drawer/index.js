@@ -35,8 +35,8 @@ var MmOffCanvasDrawer = /** @class */ (function () {
             evnt.preventDefault();
             evnt.stopImmediatePropagation();
         };
-        this.backdrop.addEventListener('touchstart', close);
-        this.backdrop.addEventListener('mousedown', close);
+        this.backdrop.addEventListener('touchstart', close, { passive: true });
+        this.backdrop.addEventListener('mousedown', close, { passive: true });
     }
     Object.defineProperty(MmOffCanvasDrawer.prototype, "prefix", {
         /** Prefix for the class. */
