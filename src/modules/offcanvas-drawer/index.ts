@@ -50,7 +50,6 @@ export default class MmOffCanvasDrawer {
         //  Click the backdrop.
         const close = (evnt: MouseEvent) => {
             this.close();
-            evnt.preventDefault();
             evnt.stopImmediatePropagation();
         };
         this.backdrop.addEventListener('touchstart', close, { passive: true });

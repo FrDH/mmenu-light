@@ -32,7 +32,6 @@ var MmOffCanvasDrawer = /** @class */ (function () {
         //  Click the backdrop.
         var close = function (evnt) {
             _this.close();
-            evnt.preventDefault();
             evnt.stopImmediatePropagation();
         };
         this.backdrop.addEventListener('touchstart', close, { passive: true });
