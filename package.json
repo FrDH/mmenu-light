@@ -31,11 +31,11 @@
     "devDependencies": {
         "gulp": "^4.0.2",
         "gulp-autoprefixer": "^6.1.0",
-        "gulp-clean-css": "^4.2.0",
+        "gulp-clean-css": "^4.3.0",
         "gulp-concat": "^2.6.1",
-        "gulp-sass": "^4.0.2",
+        "gulp-sass": "^4.1.0",
         "gulp-typescript": "^5.0.1",
-        "typescript": "^3.7.2",
+        "typescript": "^3.9.7",
         "webpack-stream": "^5.2.1"
     }
 }
