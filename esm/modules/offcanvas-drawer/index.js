@@ -42,7 +42,7 @@ var MmOffCanvasDrawer = /** @class */ (function () {
         get: function () {
             return prefix;
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     /**
