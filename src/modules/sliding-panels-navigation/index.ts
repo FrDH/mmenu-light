@@ -1,5 +1,6 @@
 import { r, $ } from '../helpers';
 import * as support from '../support';
+import MmKeyboardNavigation, { keyBindings } from '../keyboard-navigation/index';
 
 const prefix = 'mm-spn';
 
@@ -24,21 +25,25 @@ export default class MmSlidingPanelsNavigation {
     /** The class for selected menu items. */
     selectedClass: string;
 
+    keyboardNavigator: MmKeyboardNavigation;
+
     /**
      * Class for navigating in a mobile menu.
      *
-     * @param {HTMLElement} node            HTMLElement for the menu.
-     * @param {string}      title           The title for the menu.
-     * @param {string}      selectedClass   The class for selected listitems.
-     * @param {boolean}     slidingSubmenus Whether or not to use sliding submenus.
-     * @param {string}      theme           The color scheme for the menu.
+     * @param {HTMLElement} node               HTMLElement for the menu.
+     * @param {string}      title              The title for the menu.
+     * @param {string}      selectedClass      The class for selected list items.
+     * @param {boolean}     slidingSubmenus    Whether or not to use sliding submenus.
+     * @param {string}      theme              The color scheme for the menu.
+     * @param {boolean}     keyboardNavigation Whether or not to use keyboard navigation.
      */
     constructor(
         node: HTMLElement,
         title: string,
         selectedClass: string,
         slidingSubmenus: boolean,
-        theme: 'light' | 'dark'
+        theme: 'light' | 'dark',
+        keyboardNavigation: boolean
     ) {
         this.node = node;
         this.title = title;
@@ -58,6 +63,10 @@ export default class MmSlidingPanelsNavigation {
             `${prefix}--${this.slidingSubmenus ? 'navbar' : 'vertical'}`
         );
 
+        if (keyboardNavigation) {
+            this.keyboardNavigator = new MmKeyboardNavigation(this.node, this.selectedClass);
+        }
+
         this._setSelectedl();
         this._initAnchors();
     }
@@ -69,7 +78,7 @@ export default class MmSlidingPanelsNavigation {
      */
     openPanel(panel: HTMLElement) {
         /** Parent LI for the panel.  */
-        let listitem = panel.parentElement;
+        let listItem = panel.parentElement;
 
         //  Sliding submenus
         if (this.slidingSubmenus) {
@@ -77,17 +86,14 @@ export default class MmSlidingPanelsNavigation {
             let title = panel.dataset.mmSpnTitle;
 
             //  Opening the main level UL.
-            if (listitem === this.node) {
+            if (listItem === this.node) {
                 this.node.classList.add(`${prefix}--main`);
-            }
-
-            //  Opening a sub level UL.
-            else {
+            } else {  //  Opening a sub level UL.
                 this.node.classList.remove(`${prefix}--main`);
 
                 //  Find title from parent LI.
                 if (!title) {
-                    r(listitem.children).forEach(child => {
+                    r(listItem.children).forEach(child => {
                         if (child.matches('a, span')) {
                             title = child.textContent;
                         }
@@ -145,20 +151,20 @@ export default class MmSlidingPanelsNavigation {
     }
 
     /**
-     * Initiate the selected listitem / open the current panel.
+     * Initiate the selected list item / open the current panel.
      */
     _setSelectedl() {
         /** All selected LIs. */
-        let listitems = $('.' + this.selectedClass, this.node);
+        let listItems = $('.' + this.selectedClass, this.node);
 
         /** The last selected LI. */
-        let listitem = listitems[listitems.length - 1];
+        let listItem = listItems[listItems.length - 1];
 
         /** The opened UL. */
         let panel = null;
 
-        if (listitem) {
-            panel = listitem.closest('ul');
+        if (listItem) {
+            panel = listItem.closest('ul');
         }
         if (!panel) {
             panel = this.node.querySelector('ul');
@@ -177,10 +183,7 @@ export default class MmSlidingPanelsNavigation {
          * @return  {boolean}       handled Whether or not the event was handled.
          */
         const clickAnchor = (target: HTMLElement): boolean => {
-            if (target.matches('a')) {
-                return true;
-            }
-            return false;
+            return target.matches('a');
         };
 
         /**
@@ -190,20 +193,20 @@ export default class MmSlidingPanelsNavigation {
          * @return  {boolean}               Whether or not the event was handled.
          */
         const openSubmenu = (target: HTMLElement): boolean => {
-            /** Parent listitem for the submenu.  */
-            let listitem;
+            /** Parent list item for the submenu.  */
+            let listItem;
 
-            //  Find the parent listitem.
+            //  Find the parent list item.
             if (target.closest('span')) {
-                listitem = target.parentElement;
+                listItem = target.parentElement;
             } else if (target.closest('li')) {
-                listitem = target;
+                listItem = target;
             } else {
-                listitem = false;
+                listItem = false;
             }
 
-            if (listitem) {
-                r(listitem.children).forEach(panel => {
+            if (listItem) {
+                r(listItem.children).forEach(panel => {
                     if (panel.matches('ul')) {
                         this.openPanel(panel);
                     }
@@ -237,8 +240,8 @@ export default class MmSlidingPanelsNavigation {
             return false;
         };
 
-        this.node.addEventListener('click', evnt => {
-            let target = evnt.target as HTMLElement;
+        this.node.addEventListener('click', event => {
+            let target = event.target as HTMLElement;
             let handled = false;
 
             handled = handled || clickAnchor(target);
@@ -246,8 +249,34 @@ export default class MmSlidingPanelsNavigation {
             handled = handled || closeSubmenu(target);
 
             if (handled) {
-                evnt.stopImmediatePropagation();
+                event.stopImmediatePropagation();
             }
         });
+
+        if (this.keyboardNavigator) {
+            this.node.addEventListener('keydown', event => {
+                if (event.key === 'Tab') {
+                    this.keyboardNavigator.selectVertically(event.shiftKey ? 'up' : 'down');
+
+                    setTimeout(() => {
+                        this.node.focus();
+                    }, 10);
+                } else if (event.key === keyBindings.openSubPanel) {
+                    const subPanel = this.keyboardNavigator.openSubPanel();
+                    if (subPanel) {
+                        openSubmenu(subPanel);
+                    }
+                } else if (event.key === keyBindings.backOneLevel) {
+                    closeSubmenu(this.keyboardNavigator.backOneLevel());
+                } else if (event.key === keyBindings.firePanel) {
+                    const subPanel = this.keyboardNavigator.openSubPanel();
+                    if (subPanel) {
+                        openSubmenu(subPanel);
+                    } else {
+                        this.keyboardNavigator.goToAnchorDestination();
+                    }
+                }
+            });
+        }
     }
 }

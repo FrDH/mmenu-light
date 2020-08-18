@@ -1,6 +1,7 @@
 import MmToggler from '../modules/match-media-toggler/index';
 import MmSlidingPanelsNavigation from '../modules/sliding-panels-navigation/index';
 import MmOffCanvasDrawer from '../modules/offcanvas-drawer/index';
+import { keyBindings } from "../modules/keyboard-navigation";
 
 /**
  * Class for a lightweight mobile menu.
@@ -22,7 +23,7 @@ export default class MmenuLight {
      * Create a lightweight mobile menu.
      *
      * @param {HTMLElement} menu                HTML element for the menu.
-     * @param {string}      [mediaQuery='all']  Media queury to match for the menu.
+     * @param {string}      [mediaQuery='all']  Media query to match for the menu.
      */
     constructor(menu: HTMLElement, mediaQuery: string = 'all') {
         //  Store the menu node.
@@ -47,6 +48,7 @@ export default class MmenuLight {
                 selectedClass = 'Selected',
                 slidingSubmenus = true,
                 theme = 'light',
+                keyboardNavigation = true,
             } = options;
 
             this.navigator = new MmSlidingPanelsNavigation(
@@ -54,8 +56,29 @@ export default class MmenuLight {
                 title,
                 selectedClass,
                 slidingSubmenus,
-                theme
+                theme,
+                keyboardNavigation
             );
+
+            // Add keyboard handling for the drawer
+            if (keyboardNavigation) {
+                document.addEventListener('keydown', event => {
+                    if (event.key === keyBindings.toggleDrawer) {
+                        if (!document.body.classList.contains(`${this.drawer.prefix}-opened`)) {
+                            this.drawer?.open();
+                            this.menu.focus();
+                        } else {
+                            this.drawer?.close();
+                            this.menu.blur();
+                        }
+                    }
+
+                    if (event.key === keyBindings.closeDrawer && document.body.classList.contains(`${this.drawer.prefix}-opened`)) {
+                        this.drawer?.close();
+                        this.menu.blur();
+                    }
+                });
+            }
 
             //  En-/disable
             this.toggler.add(

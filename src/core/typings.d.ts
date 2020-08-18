@@ -11,6 +11,9 @@ interface mmNavigationOptions {
 
     /** The title for the menu. */
     title?: string;
+
+    /** Whether or not to use keyboard navigation. */
+    keyboardNavigation?: boolean;
 }
 
 /**	Options for the offcanvas drawer. */
