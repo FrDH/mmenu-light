@@ -70,7 +70,7 @@ const jsPack = () => {
 /*
     $ gulp polyfills
 */
-exports.polyfills = cb => {
+const polyfills = cb => {
     //  Some polyfills might rely on others,
     //      therefor we include 'em in a fixed order.
     return src([
@@ -95,7 +95,7 @@ const js = cb => {
 /*
 	$ gulp
 */
-exports.default = parallel(css, js);
+exports.default = parallel(css, js, polyfills);
 
 /*
 	$ gulp watch
