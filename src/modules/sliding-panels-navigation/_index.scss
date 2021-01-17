@@ -1,4 +1,4 @@
-$prefix: '.mm-spn';
+$prefix: ".mm-spn";
 
 /** Animation duration. */
 $mmspn_transition_duration: 0.3s;
@@ -31,188 +31,185 @@ $mmspn_line_height: 24px !default;
 $mmspn_panel_offset: 30% !default;
 
 %mmspn-reset {
-    display: block;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  display: block;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 :root {
-    /** Height for menu items. */
-    --mm-spn-item-height: #{$mmspn_item_height};
+  /** Height for menu items. */
+  --mm-spn-item-height: #{$mmspn_item_height};
 
-    /** Indent for menu items. */
-    --mm-spn-item-indent: #{$mmspn_item_indent};
+  /** Indent for menu items. */
+  --mm-spn-item-indent: #{$mmspn_item_indent};
 
-    /** Line height for menu items. */
-    --mm-spn-line-height: #{$mmspn_line_height};
+  /** Line height for menu items. */
+  --mm-spn-line-height: #{$mmspn_line_height};
 }
 
 //  The menu
 #{$prefix} {
-    @extend %mmspn-reset;
+  @extend %mmspn-reset;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    //  Prevent the entire menu from highlighting when clicking the navbar
-    -webkit-tap-highlight-color: transparent;
+  //  Prevent the entire menu from highlighting when clicking the navbar
+  -webkit-tap-highlight-color: transparent;
 
-    //  Enables smooth scrolling.
-    -webkit-overflow-scrolling: touch;
+  //  Enables smooth scrolling.
+  -webkit-overflow-scrolling: touch;
 
-    //  Prevent any content being visible outside the menu
-    overflow: hidden;
-    clip-path: inset(0 0 0 0);
+  //  Prevent any content being visible outside the menu
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
 
-    //  This creates a new viewport from the menu so the panels can be fixed
-    transform: translateX(0px);
+  //  This creates a new viewport from the menu so the panels can be fixed
+  transform: translateX(0px);
 }
 
 //  Listviews
 #{$prefix} {
-    //  All listviews.
-    ul {
-        @extend %mmspn-reset;
+  //  All listviews.
+  ul {
+    @extend %mmspn-reset;
 
-        //  Enables smooth scrolling.
-        -webkit-overflow-scrolling: touch;
+    //  Enables smooth scrolling.
+    -webkit-overflow-scrolling: touch;
 
-        position: fixed;
-        top: 0;
-        left: 100%;
-        bottom: 0;
-        z-index: 2; // Needs a z-index to be above its parent.
+    position: fixed;
+    top: 0;
+    left: 100%;
+    bottom: 0;
+    z-index: 2; // Needs a z-index to be above its parent.
 
-        //  Fix for weird iOS Safari issue:
-        //  A fixed element is not visible outside of its parent if its parent is scrollable.
-        width: 100% + $mmspn_panel_offset;
-        padding-right: $mmspn_panel_offset;
-        //  /Fix
+    //  Fix for weird iOS Safari issue:
+    //  A fixed element is not visible outside of its parent if its parent is scrollable.
+    width: 100% + $mmspn_panel_offset;
+    padding-right: $mmspn_panel_offset;
+    //  /Fix
 
-        line-height: $mmspn_line_height; // IE11 fallback
-        line-height: var(--mm-spn-line-height);
+    line-height: $mmspn_line_height; // IE11 fallback
+    line-height: var(--mm-spn-line-height);
 
-        overflow: visible;
-        overflow-y: auto;
-        background: inherit;
-        transition: left $mmspn_transition_duration ease 0s;
+    overflow: visible;
+    overflow-y: auto;
+    background: inherit;
+    transition: left $mmspn_transition_duration ease 0s;
 
-        cursor: default;
+    cursor: default;
 
-        //  Because padding-bottom doesn't work if it is scrollable.
-        &:after {
-            content: '';
-            display: block;
-            height: $mmspn_item_height; // IE11 fallback
-            height: var(--mm-spn-item-height);
-        }
+    //  Because padding-bottom doesn't work if it is scrollable.
+    &:after {
+      content: "";
+      display: block;
+      height: $mmspn_item_height; // IE11 fallback
+      height: var(--mm-spn-item-height);
     }
+  }
 
-    //  First level listview.
-    > ul {
-        left: 0;
-    }
+  //  First level listview.
+  > ul {
+    left: 0;
+  }
 
-    //  Listview opened.
-    ul#{$prefix}--open {
-        left: 0;
-    }
+  //  Listview opened.
+  ul#{$prefix}--open {
+    left: 0;
+  }
 
-    //  Child listview opened.
-    ul#{$prefix}--parent {
-        left: -$mmspn_panel_offset;
-        overflow-y: hidden;
-    }
+  //  Child listview opened.
+  ul#{$prefix}--parent {
+    left: -$mmspn_panel_offset;
+    overflow-y: hidden;
+  }
 }
 
 //  Listitems
 #{$prefix} {
-    li {
-        @extend %mmspn-reset;
+  li {
+    @extend %mmspn-reset;
 
-        position: relative;
-        background: inherit;
-        cursor: pointer;
+    position: relative;
+    background: inherit;
+    cursor: pointer;
 
-        //  The arrow.
-        &:before {
-            content: '';
-            display: block;
-            position: absolute;
-            top: $mmspn_item_height / 2; // IE11 fallback
-            top: calc(var(--mm-spn-item-height) / 2);
-            right: $mmspn_item_height / 2; // IE11 fallback
-            right: calc(var(--mm-spn-item-height) / 2);
-            z-index: 0;
+    //  The arrow.
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: $mmspn_item_height / 2; // IE11 fallback
+      top: calc(var(--mm-spn-item-height) / 2);
+      right: $mmspn_item_height / 2; // IE11 fallback
+      right: calc(var(--mm-spn-item-height) / 2);
+      z-index: 0;
 
-            width: $mmspn_arrow_size;
-            height: $mmspn_arrow_size;
-            border-top: $mmspn_arrow_weight solid;
-            border-right: $mmspn_arrow_weight solid;
-            transform: rotate(45deg) translate(0, -50%);
-            opacity: $mmspn_arrow_opac;
-        }
-
-        //  The border.
-        &:after {
-            content: '';
-            display: block;
-            margin-left: $mmspn_item_indent; // IE11 fallback
-            margin-left: var(--mm-spn-item-indent);
-
-            border-top: 1px solid;
-            opacity: $mmspn_border_opac;
-        }
+      width: $mmspn_arrow_size;
+      height: $mmspn_arrow_size;
+      border-top: $mmspn_arrow_weight solid;
+      border-right: $mmspn_arrow_weight solid;
+      transform: rotate(45deg) translate(0, -50%);
+      opacity: $mmspn_arrow_opac;
     }
+
+    //  The border.
+    &:after {
+      content: "";
+      display: block;
+      margin-left: $mmspn_item_indent; // IE11 fallback
+      margin-left: var(--mm-spn-item-indent);
+
+      border-top: 1px solid;
+      opacity: $mmspn_border_opac;
+    }
+  }
 }
 
 //  Anchors
 #{$prefix} {
-    a,
-    span {
-        @extend %mmspn-reset;
+  a,
+  span {
+    @extend %mmspn-reset;
 
-        position: relative;
-        z-index: 1;
-        padding: (($mmspn_item_height - $mmspn_line_height) / 2)
-            $mmspn_item_indent; // IE11 fallback
-        padding: calc(
-                (var(--mm-spn-item-height) - var(--mm-spn-line-height)) / 2
-            )
-            var(--mm-spn-item-indent);
-    }
+    position: relative;
+    z-index: 1;
+    padding: (($mmspn_item_height - $mmspn_line_height) / 2) $mmspn_item_indent; // IE11 fallback
+    padding: calc((var(--mm-spn-item-height) - var(--mm-spn-line-height)) / 2)
+      var(--mm-spn-item-indent);
+  }
 
-    a {
-        background: inherit;
-        color: inherit;
-        text-decoration: none;
-
-        //  Show arrow for opening the submenu.
-        &:not(:last-child) {
-            width: calc(100% - #{$mmspn_item_height}); // IE11 fallback
-            width: calc(100% - var(--mm-spn-item-height));
-
-            //  Border on the right.
-            &:after {
-                content: '';
-                display: block;
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                border-right: 1px solid;
-                opacity: $mmspn_border_opac;
-            }
-        }
-    }
+  a {
+    background: inherit;
+    color: inherit;
+    text-decoration: none;
 
     //  Show arrow for opening the submenu.
-    span {
-        background: transparent;
+    &:not(:last-child) {
+      width: calc(100% - #{$mmspn_item_height}); // IE11 fallback
+      width: calc(100% - var(--mm-spn-item-height));
+
+      //  Border on the right.
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        border-right: 1px solid;
+        opacity: $mmspn_border_opac;
+      }
     }
+  }
+
+  //  Show arrow for opening the submenu.
+  span {
+    background: transparent;
+  }
 }
 
-@import 'navbar';
-@import 'themes';
-@import 'vertical';
+@import "navbar";
+@import "themes";
+@import "vertical";
