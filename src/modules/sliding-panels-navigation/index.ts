@@ -1,5 +1,4 @@
 import { r, $ } from '../helpers';
-import * as support from '../support';
 
 const prefix = 'mm-spn';
 
@@ -47,11 +46,6 @@ export default class MmSlidingPanelsNavigation {
 
         //  Add classname.
         this.node.classList.add(prefix);
-
-        //  Sliding submenus not supported in IE11.
-        if (support.IE11) {
-            this.slidingSubmenus = false;
-        }
 
         this.node.classList.add(`${prefix}--${theme}`);
         this.node.classList.add(

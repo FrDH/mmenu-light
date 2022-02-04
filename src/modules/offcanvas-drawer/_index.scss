@@ -9,105 +9,100 @@ $mmocd_transition_duration: 0.3s !default;
 
 //  CSS variables
 :root {
-  /** Width for the drawer. */
-  --mm-ocd-width: #{$mmocd_width};
+    /** Width for the drawer. */
+    --mm-ocd-width: #{$mmocd_width};
 
-  /** Min-width for the drawer. */
-  --mm-ocd-min-width: #{$mmocd_min_width};
+    /** Min-width for the drawer. */
+    --mm-ocd-min-width: #{$mmocd_min_width};
 
-  /** Max-width for the drawer. */
-  --mm-ocd-max-width: #{$mmocd_max_width};
+    /** Max-width for the drawer. */
+    --mm-ocd-max-width: #{$mmocd_max_width};
 }
 
 //  The rest of the page
 body#{$prefix}-opened {
-  //  Somewhat prevents scrolling.
-  overflow-y: hidden;
-  overscroll-behavior: none;
+    //  Somewhat prevents scrolling.
+    overflow-y: hidden;
+    overscroll-behavior: none;
 }
 
 //  The wrapper
 #{$prefix} {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 100%;
-  left: 0;
-  z-index: 9999;
-  overflow: hidden;
-  overscroll-behavior: contain;
-  background: rgba(#000, 0);
-  transition: {
-    property: bottom, background-color;
-    duration: 0s, $mmocd_transition_duration;
-    timing-function: ease;
-    delay: $mmocd_transition_duration * 1.5, $mmocd_transition_duration * 0.5;
-  }
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 100%;
+    left: 0;
+    z-index: 9999;
+    overflow: hidden;
+    overscroll-behavior: contain;
+    background: rgba(#000, 0);
+    transition: {
+        property: bottom, background-color;
+        duration: 0s, $mmocd_transition_duration;
+        timing-function: ease;
+        delay: $mmocd_transition_duration * 1.5,
+            $mmocd_transition_duration * 0.5;
+    }
 
-  &--open {
-    bottom: 0;
-    background: rgba(#000, 0.25);
-    transition-delay: 0s;
-  }
+    &--open {
+        bottom: 0;
+        background: rgba(#000, 0.25);
+        transition-delay: 0s;
+    }
 }
 
 //  The content
 #{$prefix}__content {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 2;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
 
-  width: $mmocd_width; // IE11 fallback
-  width: var(--mm-ocd-width);
-  min-width: $mmocd_min_width; // IE11 fallback
-  min-width: var(--mm-ocd-min-width);
-  max-width: $mmocd_max_width; // IE11 fallback
-  max-width: var(--mm-ocd-max-width);
+    width: var(--mm-ocd-width);
+    min-width: var(--mm-ocd-min-width);
+    max-width: var(--mm-ocd-max-width);
 
-  background: #fff;
-  transition: {
-    property: transform;
-    duration: $mmocd_transition_duration;
-    timing-function: ease;
-  }
+    background: #fff;
+    transition: {
+        property: transform;
+        duration: $mmocd_transition_duration;
+        timing-function: ease;
+    }
 
-  #{$prefix}--left & {
-    left: 0;
-    transform: translate3d(-100%, 0, 0);
-  }
+    #{$prefix}--left & {
+        left: 0;
+        transform: translate3d(-100%, 0, 0);
+    }
 
-  #{$prefix}--right & {
-    right: 0;
-    transform: translate3d(100%, 0, 0);
-  }
+    #{$prefix}--right & {
+        right: 0;
+        transform: translate3d(100%, 0, 0);
+    }
 
-  #{$prefix}--open & {
-    transform: translate3d(0, 0, 0);
-  }
+    #{$prefix}--open & {
+        transform: translate3d(0, 0, 0);
+    }
 }
 
 //  The backdrop
 #{$prefix}__backdrop {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 3;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
 
-  width: calc(100% - #{$mmocd_width}); // IE11 fallback
-  width: calc(100% - var(--mm-ocd-width));
-  min-width: calc(100% - #{$mmocd_max_width}); // IE11 fallback
-  min-width: calc(100% - var(--mm-ocd-max-width));
-  max-width: calc(100% - #{$mmocd_min_width}); // IE11 fallback
-  max-width: calc(100% - var(--mm-ocd-min-width));
+    width: calc(100% - var(--mm-ocd-width));
+    min-width: calc(100% - var(--mm-ocd-max-width));
+    max-width: calc(100% - var(--mm-ocd-min-width));
 
-  background: rgba(3, 2, 1, 0);
+    background: rgba(3, 2, 1, 0);
 
-  #{$prefix}--left & {
-    right: 0;
-  }
+    #{$prefix}--left & {
+        right: 0;
+    }
 
-  #{$prefix}--right & {
-    left: 0;
-  }
+    #{$prefix}--right & {
+        left: 0;
+    }
 }

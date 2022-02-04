@@ -20,12 +20,10 @@
             //  Submenus
             ul {
                 display: none;
-                padding-left: $mmspn_item_indent; // IE11 fallback
                 padding-left: var(--mm-spn-item-indent);
 
                 //  Because padding-bottom doesn't work if it is scrollable.
                 &:after {
-                    height: $mmspn_item_height / 2; // IE11 fallback
                     height: calc(var(--mm-spn-item-height) / 2);
                 }
             }

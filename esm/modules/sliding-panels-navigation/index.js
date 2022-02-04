@@ -1,5 +1,4 @@
 import { r, $ } from '../helpers';
-import * as support from '../support';
 var prefix = 'mm-spn';
 /**
  * Class for navigating in a mobile menu.
@@ -21,10 +20,6 @@ var MmSlidingPanelsNavigation = /** @class */ (function () {
         this.selectedClass = selectedClass;
         //  Add classname.
         this.node.classList.add(prefix);
-        //  Sliding submenus not supported in IE11.
-        if (support.IE11) {
-            this.slidingSubmenus = false;
-        }
         this.node.classList.add(prefix + "--" + theme);
         this.node.classList.add(prefix + "--" + (this.slidingSubmenus ? 'navbar' : 'vertical'));
         this._setSelectedl();
