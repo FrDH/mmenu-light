@@ -92,9 +92,11 @@ body#{$prefix}-opened {
     bottom: 0;
     z-index: 3;
 
-    width: calc(100% - var(--mm-ocd-width));
-    min-width: calc(100% - var(--mm-ocd-max-width));
-    max-width: calc(100% - var(--mm-ocd-min-width));
+    width: clamp(
+        calc(100% - var(--mm-ocd-max-width)),
+        calc(100% - var(--mm-ocd-width)),
+        calc(100% - var(--mm-ocd-min-width))
+    );
 
     background: rgba(3, 2, 1, 0);
 
