@@ -1,6 +1,6 @@
 {
     "name": "mmenu-light",
-    "version": "3.1.1",
+    "version": "3.2.0",
     "main": "dist/mmenu-light.js",
     "module": "src/mmenu-light.js",
     "author": "Fred Heusschen <info@frebsite.nl>",
@@ -32,9 +32,9 @@
         "gulp": "^4.0.2",
         "gulp-autoprefixer": "^6.1.0",
         "gulp-clean-css": "^4.3.0",
-        "gulp-sass": "^4.1.0",
+        "gulp-sass": "^4.1.1",
         "gulp-typescript": "^5.0.1",
-        "typescript": "^3.9.7",
+        "typescript": "^3.9.10",
         "webpack-stream": "^5.2.1"
     }
 }
