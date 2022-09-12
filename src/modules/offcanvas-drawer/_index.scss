@@ -1,22 +1,18 @@
 //  SCSS Variables
 $prefix: ".mm-ocd";
 
-$mmocd_width: 80% !default;
-$mmocd_min_width: 200px !default;
-$mmocd_max_width: 440px !default;
-
 $mmocd_transition_duration: 0.3s !default;
 
 //  CSS variables
 :root {
     /** Width for the drawer. */
-    --mm-ocd-width: #{$mmocd_width};
+    --mm-ocd-width: 80%;
 
     /** Min-width for the drawer. */
-    --mm-ocd-min-width: #{$mmocd_min_width};
+    --mm-ocd-min-width: 200px;
 
     /** Max-width for the drawer. */
-    --mm-ocd-max-width: #{$mmocd_max_width};
+    --mm-ocd-max-width: 440px;
 }
 
 //  The rest of the page

@@ -17,9 +17,6 @@ const cleancss = require('gulp-clean-css');
 const typescript = require('gulp-typescript');
 const webpack = require('webpack-stream');
 
-//  For polyfills
-const concat = require('gulp-concat');
-
 //  Dirs
 const inputDir = 'src';
 const outputDir = 'dist';
@@ -68,24 +65,6 @@ const jsPack = () => {
 };
 
 /*
-    $ gulp polyfills
-*/
-const polyfills = cb => {
-    //  Some polyfills might rely on others,
-    //      therefor we include 'em in a fixed order.
-    return src([
-        inputDir + '/polyfills/foreach.js',
-        inputDir + '/polyfills/matches.js',
-        inputDir + '/polyfills/closest.js',
-        inputDir + '/polyfills/after.js',
-        inputDir + '/polyfills/append.js',
-        inputDir + '/polyfills/event.js'
-    ])
-        .pipe(concat('mmenu-light.polyfills.js'))
-        .pipe(dest(outputDir));
-};
-
-/*
     $ gulp js
 */
 const js = cb => {
@@ -95,7 +74,7 @@ const js = cb => {
 /*
 	$ gulp
 */
-exports.default = parallel(css, js, polyfills);
+exports.default = parallel(css, js);
 
 /*
 	$ gulp watch

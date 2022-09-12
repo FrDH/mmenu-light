@@ -32,7 +32,6 @@
         "gulp": "^4.0.2",
         "gulp-autoprefixer": "^6.1.0",
         "gulp-clean-css": "^4.3.0",
-        "gulp-concat": "^2.6.1",
         "gulp-sass": "^4.1.0",
         "gulp-typescript": "^5.0.1",
         "typescript": "^3.9.7",

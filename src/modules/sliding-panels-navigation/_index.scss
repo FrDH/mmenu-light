@@ -18,17 +18,6 @@ $mmspn_navbar_opac: 0.4 !default;
 /** Arrow opacity. */
 $mmspn_arrow_opac: 0.4 !default;
 
-/** Item height. */
-$mmspn_item_height: 50px !default;
-
-/** Item indent. */
-$mmspn_item_indent: 20px !default;
-
-/** Line height. */
-$mmspn_line_height: 24px !default;
-
-/** Panel offset. */
-$mmspn_panel_offset: 30% !default;
 
 %mmspn-reset {
     display: block;
@@ -39,13 +28,16 @@ $mmspn_panel_offset: 30% !default;
 
 :root {
     /** Height for menu items. */
-    --mm-spn-item-height: #{$mmspn_item_height};
+    --mm-spn-item-height: 50px;
 
     /** Indent for menu items. */
-    --mm-spn-item-indent: #{$mmspn_item_indent};
+    --mm-spn-item-indent: 20px;
 
     /** Line height for menu items. */
-    --mm-spn-line-height: #{$mmspn_line_height};
+    --mm-spn-line-height: 24px;
+
+    /** Panel offset. */
+    --mm-spn-panel-offset: 30%;
 }
 
 //  The menu
@@ -86,8 +78,8 @@ $mmspn_panel_offset: 30% !default;
 
         //  Fix for weird iOS Safari issue:
         //  A fixed element is not visible outside of its parent if its parent is scrollable.
-        width: 100% + $mmspn_panel_offset;
-        padding-right: $mmspn_panel_offset;
+        width: calc(100% + var(--mm-spn-panel-offset));
+        padding-right: var(--mm-spn-panel-offset);
         //  /Fix
 
         line-height: var(--mm-spn-line-height);
@@ -119,8 +111,8 @@ $mmspn_panel_offset: 30% !default;
 
     //  Child listview opened.
     ul#{$prefix}--parent {
-        left: -$mmspn_panel_offset;
-        overflow-y: hidden;
+        left: calc(-1 * var(--mm-spn-panel-offset));
+        overflow: visible;
     }
 }
 
