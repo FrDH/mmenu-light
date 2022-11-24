@@ -1,6 +1,6 @@
-#{$prefix} {
+#{$mmprfx} {
     //  Navbar
-    &#{$prefix}--navbar {
+    &#{$mmprfx}--navbar {
         cursor: pointer;
 
         //  Back button.
@@ -21,7 +21,7 @@
         }
 
         //  No back button when the main listview is opened.
-        &#{$prefix}--main {
+        &#{$mmprfx}--main {
             cursor: default;
 
             &:before {
@@ -51,13 +51,13 @@
         }
 
         //  Title when the main listview is opened.
-        &#{$prefix}--main:after {
+        &#{$mmprfx}--main:after {
             padding-left: var(--mm-spn-item-indent);
         }
     }
 
     //  Listviews
-    &#{$prefix}--navbar {
+    &#{$mmprfx}--navbar {
         //  All listviews.
         ul {
             top: calc(var(--mm-spn-item-height) + 1px);

@@ -1,4 +1,4 @@
-$prefix: ".mm-spn";
+$mmprfx: ".mm-spn";
 
 /** Animation duration. */
 $mmspn_transition_duration: 0.3s;
@@ -41,7 +41,7 @@ $mmspn_arrow_opac: 0.4 !default;
 }
 
 //  The menu
-#{$prefix} {
+#{$mmprfx} {
     @extend %mmspn-reset;
 
     width: 100%;
@@ -62,7 +62,7 @@ $mmspn_arrow_opac: 0.4 !default;
 }
 
 //  Listviews
-#{$prefix} {
+#{$mmprfx} {
     //  All listviews.
     ul {
         @extend %mmspn-reset;
@@ -105,19 +105,19 @@ $mmspn_arrow_opac: 0.4 !default;
     }
 
     //  Listview opened.
-    ul#{$prefix}--open {
+    ul#{$mmprfx}--open {
         left: 0;
     }
 
     //  Child listview opened.
-    ul#{$prefix}--parent {
+    ul#{$mmprfx}--parent {
         left: calc(-1 * var(--mm-spn-panel-offset));
         overflow: visible;
     }
 }
 
 //  Listitems
-#{$prefix} {
+#{$mmprfx} {
     li {
         @extend %mmspn-reset;
 
@@ -155,7 +155,7 @@ $mmspn_arrow_opac: 0.4 !default;
 }
 
 //  Anchors
-#{$prefix} {
+#{$mmprfx} {
     a,
     span {
         @extend %mmspn-reset;

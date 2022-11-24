@@ -1,12 +1,12 @@
-#{$prefix} {
+#{$mmprfx} {
     //  The menu
-    &#{$prefix}--vertical {
+    &#{$mmprfx}--vertical {
         //  Enable scrolling.
         overflow-y: auto;
     }
 
     //  Listviews
-    &#{$prefix}--vertical {
+    &#{$mmprfx}--vertical {
         ul {
             //  Undo the fix for weird iOS Safari issue.
             width: 100%;
@@ -29,16 +29,16 @@
             }
 
             //  Show opened submenus.
-            &#{$prefix}--open {
+            &#{$mmprfx}--open {
                 display: block;
             }
         }
     }
 
     //  Listitems
-    &#{$prefix}--vertical {
+    &#{$mmprfx}--vertical {
         //  Rotate the button.
-        li#{$prefix}--open:before {
+        li#{$mmprfx}--open:before {
             transform: rotate(135deg) translate(-50%, 0);
         }
 
