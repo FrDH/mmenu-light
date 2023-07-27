@@ -16,6 +16,7 @@ var MmOffCanvasDrawer = /** @class */ (function () {
         this.wrapper = document.createElement('div');
         this.wrapper.classList.add("" + prefix);
         this.wrapper.classList.add(prefix + "--" + position);
+        this.wrapper.setAttribute('inert', 'true');
         //  Create the drawer.
         this.content = document.createElement('div');
         this.content.classList.add(prefix + "__content");
@@ -51,6 +52,7 @@ var MmOffCanvasDrawer = /** @class */ (function () {
     MmOffCanvasDrawer.prototype.open = function () {
         this.wrapper.classList.add(prefix + "--open");
         document.body.classList.add(prefix + "-opened");
+        this.wrapper.removeAttribute('inert');
     };
     /**
      * Close the drawer.
@@ -58,6 +60,7 @@ var MmOffCanvasDrawer = /** @class */ (function () {
     MmOffCanvasDrawer.prototype.close = function () {
         this.wrapper.classList.remove(prefix + "--open");
         document.body.classList.remove(prefix + "-opened");
+        this.wrapper.setAttribute('inert', 'true');
     };
     return MmOffCanvasDrawer;
 }());
