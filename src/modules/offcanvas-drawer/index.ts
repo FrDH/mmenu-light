@@ -29,6 +29,7 @@ export default class MmOffCanvasDrawer {
         this.wrapper = document.createElement('div');
         this.wrapper.classList.add(`${prefix}`);
         this.wrapper.classList.add(`${prefix}--${position}`);
+        this.wrapper.setAttribute('inert', 'true');
 
         //  Create the drawer.
         this.content = document.createElement('div');
@@ -62,6 +63,7 @@ export default class MmOffCanvasDrawer {
     open() {
         this.wrapper.classList.add(`${prefix}--open`);
         document.body.classList.add(`${prefix}-opened`);
+        this.wrapper.removeAttribute('inert');
     }
 
     /**
@@ -70,5 +72,6 @@ export default class MmOffCanvasDrawer {
     close() {
         this.wrapper.classList.remove(`${prefix}--open`);
         document.body.classList.remove(`${prefix}-opened`);
+        this.wrapper.setAttribute('inert', 'true');
     }
 }
